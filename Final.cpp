@@ -10,9 +10,9 @@
 		//	Definição de constantes e variáveis globais
 		
 #define max 1000	//	Define o número máximo de produtos e clientes cadastrados no sistema //
-int n = 1;			//	Usada na função lista (teremos que mexer nela também)	//	Usada como variavel global para identificar a quantidade de usuarios
+int n = 1;			//Usada p/ id a quantidade de usuarios já cadastrados e iniciar o vetor na posição livre atual el na função lista //
 
-#define maxo 2		//	Usada na parte de usuários
+#define maxo 2		//	Usada na parte de produtos
 #define maxi 30
 
 	/*	Definição das structs usadas 	*/
@@ -188,14 +188,14 @@ void menu_usuario(struct usuario *cadastro_cliente){
       	case 4:
             system("cls");
             printf("\n\n\n");
-            // precisa de registro
+            // precisa de arquivo (não finalizado ainda)
             system("cls");
             break;
             
   		case 5:
             system("cls");
             printf("\n\n\n");
-            // precisa de registro
+            // precisa de arquivo (não finalizado ainda)
             system("cls");
 			break;
 
@@ -215,7 +215,7 @@ void menu_usuario(struct usuario *cadastro_cliente){
 
 /*	Vamos ter que alterar essa função para uma função que cadastra um único cliente, e criar outra função que chama essa várias vezes	*/
 
-void inserir (struct usuario *cadastro_cliente){
+void inserir(struct usuario *cadastro_cliente){
 		
 	int i, j, sair;
 	
@@ -235,7 +235,7 @@ void inserir (struct usuario *cadastro_cliente){
 	    gets((cadastro_cliente+i)->telefone);
 	    fflush(stdin);
 	    
-	    n++;
+	    n++; // atualiza o num total de clientes no sistema
 	
 	    printf("\n \n Tecle 1 para novo cadastro ou 0 para sair. \n");
 	    scanf("%d", &sair);
