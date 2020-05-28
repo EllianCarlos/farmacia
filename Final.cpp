@@ -1,23 +1,23 @@
-/*	Projeto da farm·cia genÈrica 	*/
+/*	Projeto da farm√°cia gen√©rica 	*/
 
 
-#include <stdio.h>			// 	Inclus„o de bibliotecas
+#include <stdio.h>			// 	Inclus√£o de bibliotecas
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
 #include <time.h>
 
-		//	DefiniÁ„o de constantes e vari·veis globais
+		//	Defini√ß√£o de constantes e vari√°veis globais
 		
-#define max 1000	//	Usada na parte de Clientes
-int n = 1;			//	Usada na funÁ„o lista (teremos que mexer nela tambÈm)	//	Usada como variavel global para identificar a quantidade de usuarios
+#define max 1000	//	Define o n√∫mero m√°ximo de produtos e clientes cadastrados no sistema //
+int n = 1;			//	Usada na fun√ß√£o lista (teremos que mexer nela tamb√©m)	//	Usada como variavel global para identificar a quantidade de usuarios
 
-#define maxo 2		//	Usada na parte de usu·rios
+#define maxo 2		//	Usada na parte de usu√°rios
 #define maxi 30
 
-	/*	DefiniÁ„o das structs usadas 	*/
+	/*	Defini√ß√£o das structs usadas 	*/
 
-struct cadastro_prod{								//	Os produtos possuem um tipo, um nome, um fornecedor, um preÁo
+struct cadastro_prod{								//	Os produtos possuem um tipo, um nome, um fornecedor, um pre√ßo
 char tipo[maxi], nome[maxi], fornecedor[maxi];		//	Um numero identificador e uma quantidade em estoque
 float preco;
 int identificador, quantidade;
@@ -27,10 +27,10 @@ struct usuario{										//	Os clientes possuem um dado de cpf, um nome e um tel
 char cpf[12], nome[30], telefone[17];
 };
 
-struct usuario cadastro_cliente[max];			//	DefiniÁ„o das estruturas de dados.
-struct cadastro_prod dados_prod[max];			//	Est„o como vari·veis globais, enquanto ainda n„o usamos arquivos de texto
+struct usuario cadastro_cliente[max];			//	Defini√ß√£o das estruturas de dados.
+struct cadastro_prod dados_prod[max];			//	Est√£o como vari√°veis globais, enquanto ainda n√£o usamos arquivos de texto
 
-		//	ProtÛtipos das funÁıes
+		//	Prot√≥tipos das fun√ß√µes
 
 void lista (struct usuario *p);
 void inserir (struct usuario *p);
@@ -78,7 +78,7 @@ int main () {
 	return 0;
 }
 
-					/*	Parte de clientes;	Giovana	*/
+					/*	Parte de produtos;	Flavio e Thales	*/
 
 void recebe_inf(){
 	
@@ -112,7 +112,7 @@ void recebe_inf(){
     }
 }
 
-void busca_prod(){	/*	Possivelmente, È interessante que deixemos essa funÁ„o mais completa... Com opÁıes de editar qualquer dado do produto	*/
+void busca_prod(){	/*	Possivelmente, √© interessante que deixemos essa fun√ß√£o mais completa... Com op√ß√µes de editar qualquer dado do produto	*/
 
     int i;
     char compara_nome[maxi];
@@ -148,7 +148,7 @@ void menu_produto() {
 }
 
 
-					/*	Parte de usu·rios;	Flavio e Thales 	*/
+					/*	Parte de usu√°rios;	Giovanna	*/
 
 
 void menu_usuario(struct usuario *cadastro_cliente){
@@ -213,7 +213,7 @@ void menu_usuario(struct usuario *cadastro_cliente){
 	}
 }
 
-/*	Vamos ter que alterar essa funÁ„o para uma funÁ„o que cadastra um ˙nico cliente, e criar outra funÁ„o que chama essa v·rias vezes	*/
+/*	Vamos ter que alterar essa fun√ß√£o para uma fun√ß√£o que cadastra um √∫nico cliente, e criar outra fun√ß√£o que chama essa v√°rias vezes	*/
 
 void inserir (struct usuario *cadastro_cliente){
 		
@@ -270,7 +270,8 @@ struct usuario pesquisa_cliente (struct usuario *cadastro_cliente){
     while(sair!=0){
     	
         printf("INSIRA O CPF DO CLIENTE PARA ACESSAR SEU CADASTRO: \n");
-        gets(num_cpf);
+        fflush(stdin);
+	gets(num_cpf);
         fflush(stdin);
         
         for(i = 1; i <= n; i++){
@@ -299,7 +300,7 @@ struct usuario pesquisa_cliente (struct usuario *cadastro_cliente){
     }
 }
 
-		/*	Parte de fluxo (entrada e saÌda de produtos)	(Jo„o Vitor)	*/
+		/*	Parte de fluxo (entrada e sa√≠da de produtos)	(Jo√£o Vitor)	*/
 		//	Falta a parte do carrinho de compras...
 
 void menu_fluxo () {
@@ -308,7 +309,7 @@ void menu_fluxo () {
 	
 	
 	printf ("\n\nO que deseja fazer? \n\n1. Registrar entrada de produtos \n")
-	printf ("2. Registrar saÌda (venda) de produtos \n0. Retornar ao menu principal.\n\n");
+	printf ("2. Registrar sa√≠da (venda) de produtos \n0. Retornar ao menu principal.\n\n");
 	scanf ("%d", &controller);
 	
 	switch (controller) {
@@ -351,7 +352,7 @@ void saida_de_produto() {
 		
 		
 		posicao_do_produto = busca_de_produtos (stringzinha);
-		if (posicao_do_produto != NULL) {	//	VerificaÁ„o de sucesso ao encontrar o produto com determinado nome
+		if (posicao_do_produto != NULL) {	//	Verifica√ß√£o de sucesso ao encontrar o produto com determinado nome
 	
 			printf ("\nQuantas unidades desse produto devem ser adicionadas ao sistema?\n");
 			scanf ("%d", &quantia);
@@ -370,13 +371,13 @@ void saida_de_produto() {
 	
 	}
 	
-	emitir_nota (&dados_prod[posicao_do_produto], quantia, cpf_do_cliente);	/*	envia como argumentos, o endereÁo do vetor em que est· o produto,
-																				a quantia vendida e o cpf do cliente, para a inserÁ„o na nota.*/
+	emitir_nota (&dados_prod[posicao_do_produto], quantia, cpf_do_cliente);	/*	envia como argumentos, o endere√ßo do vetor em que est√° o produto,
+																				a quantia vendida e o cpf do cliente, para a inser√ß√£o na nota.*/
 }
 
-void entrada_de_produto() {		/*	A funÁ„o de saÌda de produtos busca por um produto j· existente/cadastrado e subtrai da quantidade 
-									em estoque, o valor digitado. FunÁıes intermediarias: busca_de_produtos.	
-									Fiz a funÁ„o de busca retornando o valor int correspondente ‡ posiÁ„o do produto no vetor de produtos.	*/
+void entrada_de_produto() {		/*	A fun√ß√£o de sa√≠da de produtos busca por um produto j√° existente/cadastrado e subtrai da quantidade 
+									em estoque, o valor digitado. Fun√ß√µes intermediarias: busca_de_produtos.	
+									Fiz a fun√ß√£o de busca retornando o valor int correspondente √† posi√ß√£o do produto no vetor de produtos.	*/
 	
 	char stringzinha[30];
 	int posicao_do_produto, quantia;
@@ -386,7 +387,7 @@ void entrada_de_produto() {		/*	A funÁ„o de saÌda de produtos busca por um produ
 	gets (stringzinha);
 	
 	posicao_do_produto = busca_de_produtos (stringzinha);
-	if (posicao_do_produto != NULL) {	//	VerificaÁ„o de sucesso ao encontrar o produto com determinado nome
+	if (posicao_do_produto != NULL) {	//	Verifica√ß√£o de sucesso ao encontrar o produto com determinado nome
 
 		printf ("\nQuantas unidades desse produto devem ser adicionadas ao sistema?\n");
 		scanf ("%d", &quantia);
@@ -406,11 +407,11 @@ void entrada_de_produto() {		/*	A funÁ„o de saÌda de produtos busca por um produ
 	
 }
 
-int busca_de_produtos (char *p) {	/*	*p È o parametro que receber· a string enviada como argumento ‡ funÁ„o	*/
+int busca_de_produtos (char *p) {	/*	*p √© o parametro que receber√° a string enviada como argumento √† fun√ß√£o	*/
 	
 	int posicao, i, controller = 0;
 	
-	for (i = 0; i < max; i++) {		//	Inicia-se a verificaÁ„o pelo vetor de produtos, procurando algum produto do nome recebido por parametro pela funcao
+	for (i = 0; i < max; i++) {		//	Inicia-se a verifica√ß√£o pelo vetor de produtos, procurando algum produto do nome recebido por parametro pela funcao
 		if (stricmp(dados_prod[i].nome, p) == 0) {
 			posicao = i;			//	A variavel posicao recebe a posicao do vetor em que esta o produto de nome procurado
 			controller = 1;
@@ -424,7 +425,7 @@ int busca_de_produtos (char *p) {	/*	*p È o parametro que receber· a string envi
 		return NULL;
 	}
 	
-	return posicao;					//	A posicao do vetor È retornada
+	return posicao;					//	A posicao do vetor √© retornada
 }
 
 
