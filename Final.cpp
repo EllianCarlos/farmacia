@@ -331,8 +331,8 @@ void menu_fluxo () {
 
 void saida_de_produto() {
 									
-	char stringzinha[30], controller, cpf_do_cliente[12];
-	int posicao_do_produto, quantia;
+	char stringzinha[30], controller, controller2 = '0', cpf_do_cliente[12];
+	int posicao_do_produto, quantia, restante;
 	
 	printf ("\n O cliente a quem a venda esta sendo realizada, possui cadastro?\n");
 	gets (controller);
@@ -354,10 +354,27 @@ void saida_de_produto() {
 		posicao_do_produto = busca_de_produtos (stringzinha);
 		if (posicao_do_produto != NULL) {	//	Verificação de sucesso ao encontrar o produto com determinado nome
 	
-			printf ("\nQuantas unidades desse produto devem ser adicionadas ao sistema?\n");
+			printf ("\nQuantas unidades desse produto devem ser retiradas do sistema?\n");
 			scanf ("%d", &quantia);
 			fflush (stdin);
 			
+			if (dados_prod[posicao_do_produto].quantidade < quantia) {
+				printf ("\nNao ha produtos o suficiente em estoque para concluir a venda. \n");
+				printf ("Atualmente, existem apenas %d produtos em estoque.\n\n1. Vender o estoque inteiro.\n2. Retornar ao menu\n", dados_prod[posicao_do_produto].quantidade);
+				scanf ("%c", &controller2);
+				fflush (stdin);
+				
+				switch (controller2) {
+					case '1':
+						restante = dados_prod[posicao_do_produto].quantidade;
+						dados_prod[posicao_do_produto].quantidade = 0;
+					break;
+					case '2':
+						//	Apenas atribuindo um valor diferente de 0 ao controller2, para que ele nao entre na verificação abaixo e não seja impressa uma nota.
+					break;
+				}
+				
+			}
 			dados_prod[posicao_do_produto].quantidade -= quantia;
 			
 			printf ("\nOperacao concluida com sucesso. \n");
@@ -371,8 +388,16 @@ void saida_de_produto() {
 	
 	}
 	
-	emitir_nota (&dados_prod[posicao_do_produto], quantia, cpf_do_cliente);	/*	envia como argumentos, o endereço do vetor em que está o produto,
+	if (controller2 == '0') {	//	Controller2 é a variável usada no caso em que não há produtos em estoque o suficiente para efetuar a venda. 
+								//	Logo, se houver algo nela, temos de emitir uma nota com a quantia que foi vendida, e não a total pedida previamente
+								
+		emitir_nota (&dados_prod[posicao_do_produto], quantia, cpf_do_cliente);	/*	envia como argumentos, o endereço do vetor em que está o produto,					
 																				a quantia vendida e o cpf do cliente, para a inserção na nota.*/
+	}
+	else if (controller 2 == '1') {		//	Dessa vez, envia como argumento a quantia que foi vendida. (Que havia em estoque)
+		emitir_nota (&dados_prod[posicao_do_produto], restante, cpf_do_cliente); 
+	}
+	//	Se o controller for 2, significa que simplesmente retornamos ao menu e nao houve venda, logo, sem nota.
 }
 
 void entrada_de_produto() {		/*	A função de saída de produtos busca por um produto já existente/cadastrado e subtrai da quantidade 
@@ -427,8 +452,3 @@ int busca_de_produtos (char *p) {	/*	*p é o parametro que receberá a string en
 	
 	return posicao;					//	A posicao do vetor é retornada
 }
-
-
-
-
-
