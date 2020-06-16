@@ -271,20 +271,17 @@ struct usuario pesquisa_cliente (struct usuario *cadastro_cliente){
         for(i = 1; i <= n; i++){
 
 	        if (strcmp (num_cpf, cadastro_cliente[i].cpf) == 0) {
-
-	        printf("\n _______________Cadastro[%d]:_______________ \n", i);
-	        printf("\n Nome: %s", cadastro_cliente[i].nome);
-	        printf("\n CPF: %d", cadastro_cliente[i].cpf);
-	        printf("\n Telefone: %s", cadastro_cliente[i].telefone);
-	        printf("\n \n");
-	        system("pause");
-	        system("cls");
-	        }
-
-	        else if (num!=cadastro_cliente[i].cpf){
-	        printf("\n CPF nao encontrado. \n \n");
-	        break;
-    	    }
+				printf("\n _______________Cadastro[%d]:_______________ \n", i);
+				printf("\n Nome: %s", cadastro_cliente[i].nome);
+				printf("\n CPF: %d", cadastro_cliente[i].cpf);
+				printf("\n Telefone: %s", cadastro_cliente[i].telefone);
+				printf("\n \n");
+				system("pause");
+				system("cls");
+			} else {
+				printf("\n CPF nao encontrado. \n \n");
+				break;
+			}
         }
 
         printf("\n \n Tecle 1 para nova busca ou 0 para sair. \n");
@@ -303,7 +300,7 @@ void menu_fluxo () {
 
 
 	printf ("\n\nO que deseja fazer? \n\n1. Registrar entrada de produtos \n");
-	printf ("2. Registrar sa�da (venda) de produtos \n0. Retornar ao menu principal.\n\n");
+	printf ("2. Registrar saida (venda) de produtos \n0. Retornar ao menu principal.\n\n");
 	scanf ("%d", &controller);
 
 	switch (controller) {
@@ -374,12 +371,6 @@ void saida_de_produto() {
 			printf ("Agora, a quantia de %s em estoque e: %d", dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
 		}
 	}
-	else {
-		printf ("\n\nRetornando ao menu...\n\n");
-		Sleep (2000);
-		system ("cls");
-
-	}
 
 	if (controller2 == '0') {	//	Controller2 � a vari�vel usada no caso em que n�o h� produtos em estoque o suficiente para efetuar a venda.
 								//	Logo, se houver algo nela, temos de emitir uma nota com a quantia que foi vendida, e n�o a total pedida previamente
@@ -387,10 +378,15 @@ void saida_de_produto() {
 		emitir_nota (&dados_prod[posicao_do_produto], quantia, cpf_do_cliente);	/*	envia como argumentos, o endere�o do vetor em que est� o produto,
 																				a quantia vendida e o cpf do cliente, para a inser��o na nota.*/
 	}
-	else if (controller 2 == '1') {		//	Dessa vez, envia como argumento a quantia que foi vendida. (Que havia em estoque)
+	else if (controller2 == '1') {		//	Dessa vez, envia como argumento a quantia que foi vendida. (Que havia em estoque)
 		emitir_nota (&dados_prod[posicao_do_produto], restante, cpf_do_cliente);
 	}
 	//	Se o controller for 2, significa que simplesmente retornamos ao menu e nao houve venda, logo, sem nota.
+	else {
+		printf ("\n\nRetornando ao menu...\n\n");
+		Sleep (2000);
+		system ("cls");
+	}
 }
 
 void entrada_de_produto() {		/*	A fun��o de sa�da de produtos busca por um produto j� existente/cadastrado e subtrai da quantidade

@@ -46,24 +46,23 @@ void menu_usuario(struct usuario *cadastro_cliente){
              pesquisa(cadastro_cliente);
              system("cls");
         }
-        if(opcao==4){
+        else if(opcao==4){
             system("cls");
             printf("\n\n\n");
             // precisa de registro
             system("cls");
         }
-        if(opcao==5){
+        else if(opcao==5){
             system("cls");
             printf("\n\n\n");
             // precisa de registro
             system("cls");
         }
-
-        if (opcao ==6){
+        else if (opcao==6){
             printf("\n\n\n\n\t\t\t  Saindo do Menu de Cadastro de Clientes \n\n\n\n\n");
             break;
         }
-        else{
+        else {
             printf("Opcao invalida, favor pressione <ENTER> para voltar ao menu principal");
             getchar();
             system("cls");
