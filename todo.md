@@ -1,7 +1,6 @@
 # TODO LIST
 
 ## ELLIAN
-    - #TODO identar código do Thales e do Flavio
     - #TODO revisar identação
     - #TODO criar funções auxiliares para aplicar DRY
     - #TODO padronizar comentários
