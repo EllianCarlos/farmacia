@@ -55,32 +55,32 @@ int main() {
 
     int controller = 0;
 
-    printf("Bem vindo ao sistema gerencial da farmacia.\n\nQual menu deseja utilizar?\n\n");
-    printf("1. Clientes \n2. Produtos \n3. Fluxo de mercadorias\n\n0. Sair do programa\n\n");
-    scanf("%d", &controller);
-    fflush(stdin);
 
     while (1)
     {
+
+        printf("Bem vindo ao sistema gerencial da farmacia.\n\nQual menu deseja utilizar?\n\n");
+        printf("1. Clientes \n2. Produtos \n3. Fluxo de mercadorias\n\n0. Sair do programa\n\n");
+        scanf("%d", &controller);
+        fflush(stdin);
         switch (controller)
         {
-        case 1:
-            menu_usuario(&cadastro_cliente[0]);
-            break;
-        case 2:
-            menu_produto();
-            printf("Entrei menu produtos");
-            break;
-        case 3:
-            printf("Entrei menu fluxo");
-            // menu_fluxo();
-            break;
-        case 0:
-            return 0;
-        default:
-            printf("\n\nEntrada de dado invalida.\n\nRetornando ao menu...");
+            case 1:
+                menu_usuario(&cadastro_cliente[0]);
+                break;
+            case 2:
+                menu_produto();
+                // painel();
+                break;
+            case 3:
+                // menu_fluxo();
+                break;
+            case 0:
+                return 0;
+            default:
+                printf("\n\nEntrada de dado invalida.\n\nRetornando ao menu...");
         }
-    }
+    } while(1);
 
     return 0;
 }
@@ -92,7 +92,7 @@ void menu_usuario()
     usuario *cliente_cadastro;
 
     int opcao = 0, i, nclientes = 1;
-    while (opcao != 7 || opcao < 7)
+    while (opcao < 6)
     {
 
         printf("\t \t \t \t \t \n _________________________________________Cadastro de Clientes_________________________________________ \n ");
@@ -110,57 +110,57 @@ void menu_usuario()
 
         switch (opcao)
         {
-        case 1:
-            system("cls");
-            cliente_cadastro = alocar_cliente(nclientes); //aloca um ponteiro usuario para cadastro.
-            cliente_cadastro = inserir_cliente();         //armazena as informa��es de entrada de cadastro.
-            arquivar_cliente(cliente_cadastro);           // salva as informa��es do ponteiro no arquivo bin�rio.
-            arq_num_clientes(nclientes);                  // atualiza o n�mero de cadastros em um arquivo txt.
-            system("cls");
-            break;
+            case 1:
+                system("cls");
+                cliente_cadastro = alocar_cliente(nclientes); //aloca um ponteiro usuario para cadastro.
+                cliente_cadastro = inserir_cliente();         //armazena as informa��es de entrada de cadastro.
+                arquivar_cliente(cliente_cadastro);           // salva as informa��es do ponteiro no arquivo bin�rio.
+                arq_num_clientes(nclientes);                  // atualiza o n�mero de cadastros em um arquivo txt.
+                system("cls");
+                break;
 
-        case 2:
-            system("cls");
-            lista_clientes(); //lista todos os clientes armazenados at� o momento no arquivo.
-            system("pause");
-            system("cls");
-            break;
+            case 2:
+                system("cls");
+                lista_clientes(); //lista todos os clientes armazenados at� o momento no arquivo.
+                system("pause");
+                system("cls");
+                break;
 
-        case 3:
-            system("cls");
-            buscar_cliente(); // busca um cliente pelo cpf e retorna um ponteiro que aponta para cliente especificado.
-            system("pause");
-            system("cls");
-            break;
+            case 3:
+                system("cls");
+                buscar_cliente(); // busca um cliente pelo cpf e retorna um ponteiro que aponta para cliente especificado.
+                system("pause");
+                system("cls");
+                break;
 
-        case 4:
-            system("cls");
-            menu_alterar_cliente(); //menu que permite alterar o cadastro de um cliente.
-            system("cls");
-            break;
+            case 4:
+                system("cls");
+                menu_alterar_cliente(); //menu que permite alterar o cadastro de um cliente.
+                system("cls");
+                break;
 
-        case 5:
-            system("cls");
-            excluir_cliente(); // exclui um cliente do arquivo bin�rio e atualiza o n�mero total de cadastros no txt.
-            system("cls");
-            break;
+            case 5:
+                system("cls");
+                excluir_cliente(); // exclui um cliente do arquivo bin�rio e atualiza o n�mero total de cadastros no txt.
+                system("cls");
+                break;
 
-        case 6:
-            printf("\n\n\n\n\t\t\t  Saindo do Menu de Cadastro de Clientes. \n\n\n\n\n");
-            break;
+            case 6:
+                printf("\n\n\n\n\t\t\t  Saindo do Menu de Cadastro de Clientes. \n\n\n\n\n");
+                break;
 
-        case 7:
-            system("cls");
-            printf("\n\n\n\n\t\t\t  Saindo do Sistema. \n\n\n\n\n");
-            exit(0);
+            case 7:
+                system("cls");
+                printf("\n\n\n\n\t\t\t  Saindo do Sistema. \n\n\n\n\n");
+                exit(0);
 
-        default:
-        {
+            default:
+            {
 
-            printf("Opcao invalida, favor pressione <ENTER> para voltar ao menu principal");
-            getchar();
-            system("cls");
-        }
+                printf("Opcao invalida, favor pressione <ENTER> para voltar ao menu principal");
+                getchar();
+                system("cls");
+            }
         }
     }
 }
@@ -302,7 +302,7 @@ void lista_clientes()
     free(c); // libera o ponteiro ao t�rmino da execu��o da fun��o.
 }
 
-/* fun��o para encontrar um cliente a partir do cpf. */
+/* função para encontrar um cliente a partir do cpf. */
 
 usuario *buscar_cliente()
 {
@@ -801,25 +801,90 @@ void excluir_cliente()
 void menu_produto()
 {
 
-    char verificador[2];
+    int verificador = 0;
     int i;
 
-    printf("\nO produto ja tem cadastro?(s ou n)\n");
-    gets(verificador);
 
-    if (stricmp(verificador, "n") == 0)
-    {
-        recebe_inf();
+    while(verificador != 6) {
+        printf("\t \t \t \t \t \n _________________________________________Menu de Produtos_________________________________________ \n ");
+        printf("\t \t \t \t \t1. Inserir Produto Novo.\n");
+        printf("\t \t \t \t \t2. Buscar Produto.\n");
+        printf("\t \t \t \t \t3. Listar Produtos.\n");
+        printf("\t \t \t \t \t4. Editar Produto.\n");
+        printf("\t \t \t \t \t5. Excluir Cadastro.\n");
+        printf("\t \t \t \t \t6. Voltar ao Menu Principal.\n");
+        printf("\t \t \t \t \t7. Sair do Sistema.\n");
+        printf(" Selecione uma opcao, por favor:\n");
+
+        scanf(" %d", &verificador);
+        switch (verificador)
+        {
+            case 1:
+                system("cls");
+                recebe_inf();
+                break;
+            case 2:
+                system("cls");
+                busca_prod();
+                break;
+            case 3:
+                system("cls");
+                lista_produtos();
+                break;
+            case 4:
+                system("cls");
+                altera_prod();
+                break;
+            case 5:
+                system("cls");
+                remover_prod();
+                break;
+            case 6:
+                system("cls");
+                printf("\n\n\n\n\t\t\t  Saindo do Menu de Produtos. \n\n\n\n\n");
+                break;
+            case 7:
+                system("cls");
+                printf("\n\n\n\n\t\t\t  Saindo do Sistema. \n\n\n\n\n");
+                exit(0);
+            default:
+                system("cls");
+                printf("\n\n\n\n\t\t\t  Opção não reconhecida. \n\n\n\n\n");
+                break;
+        }
     }
-    else
-    {
-        busca_prod();
-    }
+}
+
+void criar_produto(cadastro_prod *prod) {
+
+    printf("\nDigite as informacoes para o cadastro do produto:\n");
+    fflush(stdin);
+    printf("\nFornecedor:\t");
+    gets(prod->fornecedor);
+
+    printf("Tipo do produto:\t");
+    gets(prod->tipo);
+
+    printf("Identificador do produto(inteiro):\t");
+    scanf("%d", &(prod->identificador));
+    fflush(stdin);
+
+    printf("Nome do produto:\t");
+    gets(prod->nome);
+
+    printf("Quantidade:\t");
+    scanf("%d", &(prod->quantidade));
+    fflush(stdin);
+
+    printf("Preco (decimal com ponto):\t");
+    scanf("%f", &prod->preco);
+    fflush(stdin);
 }
 
 void recebe_inf()
 { /*function para receber as infos de um produto novo e armazenar em um arquivo binario*/
     int i;
+    int numero_de_prod = 0;
     FILE *arq;
 
     if ((arq = fopen("dados_farmacia.txt", "rb+")) == NULL)
@@ -827,59 +892,48 @@ void recebe_inf()
         printf("Erro ao abrir o arquivo!");
     }
 
-    for (i = 0; i < 1; i++)
-    { /*la�o for que pede as infos de um novo produto para cadastro*/
+    printf("\nDeseja cadastrar quantos produtos DIFERENTES?\n");
+    fflush(stdin);
+    scanf("%d", &numero_de_prod);
 
-        printf("\nDigite as informacoes para o cadastro do produto:\n");
-        fflush(stdin);
-        printf("\nFornecedor[%d]:", i + 1);
-        gets(dados_prod[i].fornecedor);
 
-        printf("Tipo do produto[%d]:", i + 1);
-        gets(dados_prod[i].tipo);
-
-        printf("Identificador do produto[%d] (inteiro):", i + 1);
-        scanf("%d", &dados_prod[i].identificador);
-        fflush(stdin);
-
-        printf("Nome do produto[%d]:", i + 1);
-        gets(dados_prod[i].nome);
-
-        printf("Quantidade[%d]:", i + 1);
-        scanf("%d", &dados_prod[i].quantidade);
-        fflush(stdin);
-
-        printf("Preco[%d] (decimal com vírgula):", i + 1);
-        scanf("%f", &dados_prod[i].preco);
-        fflush(stdin);
+    for (i = 0; i < numero_de_prod; i++)
+    { /*laço for que pede as infos de um novo produto para cadastro*/
+        cadastro_prod prod;
+        printf("\nCadastrando produto de numero %d:\n", i+1);
+        criar_produto(&prod);
+        fseek(arq, 0, SEEK_CUR); /* armazenagem das infos no arquivo */
+        fwrite((void *)&prod, sizeof(cadastro_prod), 1, arq);
     }
 
-    fseek(arq, 0, SEEK_CUR); /*armazenagem das infos no arquivo*/
-    fwrite(dados_prod, sizeof(struct cadastro_prod), 1, arq);
     fclose(arq);
+    arq_num_produtos(numero_de_prod);
 }
 
 void busca_prod()
-{ /*function de busca por produto j� cadastrado no arquivo*/
+{ /* function de busca por produto já cadastrado no arquivo */
 
     int i, j = 0, verificador = 0;
 
-    FILE *arq; /*verifica se o arquivo abre corretamente*/
+    FILE *arq; /* verifica se o arquivo abre corretamente */
 
     if ((arq = fopen("dados_farmacia.txt", "rb+")) == NULL)
     {
         printf("Erro ao abrir o arquivo!");
     }
 
-    fflush(stdin); /*limpa o buffer e recebe o codigo do produto para busca no arquivo*/
-    printf("Digite o codigo identificador do produto para alterar a quantidade:\n");
+    fflush(stdin); /* limpa o buffer e recebe o codigo do produto para busca no arquivo */
+    printf("Digite o codigo identificador do produto para buscar:\t");
     scanf("%d", &verificador);
+    printf("\n\n");
 
-    fseek(arq, 0, SEEK_SET); /*procura pelo produto no arquivo*/
+    fseek(arq, 0, SEEK_SET); /* procura pelo produto no arquivo */
     fread(dados_prod, sizeof(struct cadastro_prod), 1, arq);
 
+    mostrar_prod(verificador);
+
     for (i = 0; i < max; i++)
-    { /*la�o for para alterar a quantidadde do produto já cadastrado*/
+    { /* laço for para alterar a quantidadde do produto já cadastrado */
         if (verificador == dados_prod[i].identificador)
         {
             printf("Altere a quantidade do produto (atual = %d):\n", dados_prod->quantidade);
@@ -888,12 +942,150 @@ void busca_prod()
         }
     }
     if (j == 0)
-    { /*la�o de resposta para caso o produto n�o seja encontrado (n�o cadastrado ainda)*/
+    { /* laço de resposta para caso o produto não seja encontrado (não cadastrado ainda) */
         printf("Produto nao encontrado!\n\n");
     }
     fseek(arq, 0, SEEK_SET);
     fwrite(dados_prod, sizeof(struct cadastro_prod), 1, arq);
     fclose(arq);
+}
+
+void mostrar_prod(int verificador)
+{
+    /* function de busca por produto já cadastrado no arquivo */
+    FILE *arq; /* verifica se o arquivo abre corretamente */
+    int j = 0, i = 0;
+    if ((arq = fopen("dados_farmacia.txt", "rb+")) == NULL)
+    {
+        printf("Erro ao abrir o arquivo!");
+    }
+
+    fseek(arq, 0, SEEK_SET); /* procura pelo produto no arquivo */
+    fread(dados_prod, sizeof(cadastro_prod), 1, arq);
+
+    for (i = 0; i < max; i++)
+    { /* laço for para alterar a quantidadde do produto já cadastrado */
+        if (verificador == dados_prod[i].identificador)
+        {
+            // printf("Altere a quantidade do produto (atual = %d):\n", dados_prod->quantidade);
+            // scanf("%d", &dados_prod->quantidade);
+            printf("\n _______________Produto:_______________ \n", i + 1);
+            printf("\n Nome: %s", (dados_prod[i]).nome);
+            printf("\n Fornecedor: %s", dados_prod[i].fornecedor);
+            printf("\n Tipo: %s", dados_prod[i].tipo);
+            printf("\n Identificador: %d", dados_prod[i].identificador);
+            printf("\n Quantidade: %d", dados_prod[i].quantidade);
+            printf("\n Preco: %.2f", dados_prod[i].preco);
+            printf("\n \n");
+            j++;
+        }
+    }
+    if (j == 0)
+    { /* laço de resposta para caso o produto não seja encontrado (não cadastrado ainda) */
+        printf("Produto nao encontrado!\n\n");
+    }
+    fseek(arq, 0, SEEK_SET);
+    fwrite(dados_prod, sizeof(struct cadastro_prod), 1, arq);
+    fclose(arq);
+}
+
+void remover_prod() {
+    int numprodutos, negativo = 0;
+    int verificador;
+
+    FILE *num, *arq;
+
+    num = fopen("num_produtos.txt", "r+");
+    if (num == NULL)
+    {
+        printf("Erro na abertura do arquivo 1.\n");
+        exit(0);
+    }
+
+    fscanf(num, "%d", &numprodutos);
+    fclose(num);
+
+    /* Abre o arquivo e lê o número de cadastros armazenados
+    no banco de dados até o momento. */
+
+    arq = fopen("dados_farmacia.txt", "rb+");
+    if (arq == NULL)
+    {
+        printf("Erro na abertura do arquivo 2.\n");
+        exit(0);
+    }
+
+    cadastro_prod *c;
+
+    c = (cadastro_prod *)calloc(numprodutos, sizeof(cadastro_prod)); // aloca um ponteiro para armazenar os cadastros lidos do arquivo.
+
+    if (c == NULL)
+    {
+        printf("Erro memoria insuficiente");
+        return NULL;
+    }
+
+    fseek(arq, 0, SEEK_SET);
+    fread(c, sizeof(cadastro_prod), numprodutos, arq); //lê o arquivo binário contendo os cadastros dos clientes e armazena no ponteiro c.
+    fclose(arq);
+
+    printf("Digite o verificador do produto a ser totalmente excluido: ");
+    fflush(stdin);
+    scanf(" %d", &verificador);
+    fflush(stdin);
+
+    for (int i = 0; i < numprodutos; i++)
+    {
+        if (c[i].identificador == verificador)
+        {
+            printf("\n _______________Produto:_______________ \n", i + 1);
+            printf("\n Nome: %s", (c[i]).nome);
+            printf("\n Fornecedor: %s", c[i].fornecedor);
+            printf("\n Tipo: %s", c[i].tipo);
+            printf("\n Identificador: %d", c[i].identificador);
+            printf("\n Quantidade: %d", c[i].quantidade);
+            printf("\n Preco: %.2f", c[i].preco);
+            printf("\n \n");
+            negativo = 1;
+            system("pause");
+            while (i < numprodutos - 1)
+            {
+                c[i] = c[i + 1];
+                i++;
+            }
+            /* Subscreve todos os cadastros posteriores aquele informado. */
+            printf("\n\n Alteracao realizada com sucesso!\n");
+            break;
+        }
+    }
+
+    numprodutos--;
+
+    if (negativo == 0)
+        printf("\n \nNao encontramos o CPF informado.");
+
+    arq = fopen("dados_farmacia.txt", "wb+");
+    if (arq == NULL)
+    {
+        printf("Erro na abertura do arquivo.\n");
+        exit(0);
+    }
+
+    fseek(arq, 0, SEEK_SET);
+    fwrite(c, sizeof(cadastro_prod), numprodutos, arq); //subscreve e atualiza o banco de dados de cadastro de clientes.
+    fclose(arq);
+
+    num = fopen("num_produtos.txt", "w+");
+    if (num == NULL)
+    {
+        printf("Erro na abertura do arquivo.\n");
+        exit(0);
+    }
+
+    fseek(num, 0, SEEK_SET);
+    fprintf(num, "%d", numprodutos); //atualiza o número de cadastros salvos no banco de dados.
+    fclose(num);
+    free(c);
 }
 
 void altera_prod()
@@ -945,7 +1137,8 @@ void altera_prod()
 }
 
 void painel()
-{ /*function do 'menu' do programa*/
+{
+    /*function do 'menu' do programa*/
     char verificador[5], anulador[5];
     int j, k;
 
@@ -992,4 +1185,79 @@ void painel()
     printf("O produto ja tem cadastro?\n");
     gets(anulador);
     stricmp("verficador", "anulador");
+}
+
+void lista_produtos() {
+    FILE *num, *arq;
+
+    int numprodutos;
+
+    num = fopen("num_produtos.txt", "r+");
+    if (num == NULL)
+    {
+        printf("Erro na abertura do arquivo.\n");
+        exit(0);
+    }
+
+    fscanf(num, "%d", &numprodutos);
+
+    //a variavel numclientes lê a quantidade de cadastros e irá especificar o tamanho de memória necessario a ser alocado.
+    fclose(num);
+
+    arq = fopen("dados_farmacia.txt", "rb+"); //abre o arq para leitura.
+    if (arq == NULL)
+    {
+        printf("Erro na abertura do arquivo.\n");
+        exit(0);
+    }
+
+    cadastro_prod *c;
+
+    c = (cadastro_prod *)calloc(numprodutos, sizeof(cadastro_prod)); //aloca o ponteiro conforme o número de cadastrados no arquivo.
+    if (c == NULL)
+    {
+        printf("Erro memoria insuficiente");
+        return NULL;
+    }
+
+    fseek(arq, 0, SEEK_SET);
+    fread(c, sizeof(cadastro_prod), numprodutos, arq);
+
+    if (numprodutos == 0)
+        printf("\n\n Sem produtos cadastrados para exibir.\n");
+    else
+    {
+        printf("\t \t ***************LISTA DE PRODUTOS CADASTRADOS*****************\n \n");
+
+        for (int i = 0; i < numprodutos; i++)
+        {
+            printf("\n _______________Cadastro[%d]:_______________ \n", i + 1);
+            printf("\n Nome: %s", (c + i)->nome);
+            printf("\n Fornecedor: %s", (c + i)->fornecedor);
+            printf("\n Tipo: %s", (c + i)->tipo);
+            printf("\n Identificador: %d", (c + i)->identificador);
+            printf("\n Quantidade: %d", (c + i)->quantidade);
+            printf("\n Preco: %.2f", (c + i)->preco);
+            printf("\n \n");
+        }
+    }
+    fclose(arq);
+    free(c); // libera o ponteiro ao término da execução da função.
+}
+
+void arq_num_produtos(int nprodutos)
+{
+
+    FILE *arq;
+    unsigned int tamprodutos = 0;
+    arq = fopen("num_produtos.txt", "r+");
+
+    fseek(arq, 0, SEEK_SET);
+    fscanf(arq, "%d", &tamprodutos);
+
+    tamprodutos = tamprodutos + 1;
+
+    fseek(arq, 0, SEEK_SET);
+    fprintf(arq, "%d", tamprodutos);
+    fclose(arq);
 }
