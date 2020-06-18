@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<conio.h>
+#include<time.h>
+#include<windows.h>
 
 #define MAX_CLIENTES 1000
 #define maxi 30
@@ -73,7 +76,7 @@ int main() {
                 // painel();
                 break;
             case 3:
-                // menu_fluxo();
+                menu_fluxo();
                 break;
             case 0:
                 return 0;
@@ -381,7 +384,7 @@ usuario *buscar_cliente()
 void menu_alterar_cliente()
 {
     int opcao = 0;
-    while (opcao != 5 || opcao < 5)
+    while (opcao != 4 )
     {
 
         printf("\t \t \t \t \t \n _______________________________________Alterar Cadastro de Clientes_______________________________________ \n ");
@@ -877,37 +880,28 @@ void criar_produto(cadastro_prod *prod) {
     fflush(stdin);
 
     printf("Preco (decimal com ponto):\t");
-    scanf("%f", &prod->preco);
+    scanf("%f", &(prod->preco));
     fflush(stdin);
 }
 
 void recebe_inf()
 { /*function para receber as infos de um produto novo e armazenar em um arquivo binario*/
     int i;
-    int numero_de_prod = 0;
     FILE *arq;
 
-    if ((arq = fopen("dados_farmacia.txt", "rb+")) == NULL)
+    if ((arq = fopen("dados_farmacia.txt", "ab+")) == NULL)
     { /*verifica se o arquivo abre corretamente*/
         printf("Erro ao abrir o arquivo!");
     }
 
-    printf("\nDeseja cadastrar quantos produtos DIFERENTES?\n");
-    fflush(stdin);
-    scanf("%d", &numero_de_prod);
-
-
-    for (i = 0; i < numero_de_prod; i++)
-    { /*laço for que pede as infos de um novo produto para cadastro*/
-        cadastro_prod prod;
-        printf("\nCadastrando produto de numero %d:\n", i+1);
-        criar_produto(&prod);
-        fseek(arq, 0, SEEK_CUR); /* armazenagem das infos no arquivo */
-        fwrite((void *)&prod, sizeof(cadastro_prod), 1, arq);
-    }
-
+    cadastro_prod *prod = (cadastro_prod *)calloc(1, sizeof(cadastro_prod));
+    criar_produto(prod);
+    
+    fseek(arq, 0, SEEK_END); /* armazenagem das infos no arquivo */
+    fwrite((void *)prod, sizeof(cadastro_prod), 1, arq);
     fclose(arq);
-    arq_num_produtos(numero_de_prod);
+    free(prod);
+    arq_num_produtos(1);
 }
 
 void busca_prod()
@@ -1200,9 +1194,8 @@ void lista_produtos() {
     }
 
     fscanf(num, "%d", &numprodutos);
-
-    //a variavel numclientes lê a quantidade de cadastros e irá especificar o tamanho de memória necessario a ser alocado.
     fclose(num);
+
 
     arq = fopen("dados_farmacia.txt", "rb+"); //abre o arq para leitura.
     if (arq == NULL)
@@ -1231,7 +1224,7 @@ void lista_produtos() {
 
         for (int i = 0; i < numprodutos; i++)
         {
-            printf("\n _______________Cadastro[%d]:_______________ \n", i + 1);
+            printf("\n _______________Cadastro:_______________ \n");
             printf("\n Nome: %s", (c + i)->nome);
             printf("\n Fornecedor: %s", (c + i)->fornecedor);
             printf("\n Tipo: %s", (c + i)->tipo);
@@ -1260,4 +1253,173 @@ void arq_num_produtos(int nprodutos)
     fseek(arq, 0, SEEK_SET);
     fprintf(arq, "%d", tamprodutos);
     fclose(arq);
+}
+
+/*	Parte de fluxo (entrada e saída de produtos)	(João Vitor)	*/
+//	Falta a parte do carrinho de compras...
+
+void menu_fluxo()
+{
+
+    int controller = 0;
+
+    printf("\n\nO que deseja fazer? \n\n1. Registrar entrada de produtos \n");
+    printf("2. Registrar saida (venda) de produtos \n0. Retornar ao menu principal.\n\n");
+    scanf("%d", &controller);
+
+    switch (controller)
+    {
+        case 1:
+            entrada_de_produto();
+            break;
+
+        case 2:
+            saida_de_produto();
+            break;
+
+        case 0:
+            break;
+
+        default:
+            printf("Entrada de dados invalida. Retornando ao menu principal...");
+    }
+}
+
+void saida_de_produto()
+{
+
+    char stringzinha[30], controller, controller2 = '0', cpf_do_cliente[12];
+    int posicao_do_produto, quantia, restante;
+
+    printf("\n O cliente a quem a venda esta sendo realizada, possui cadastro?\n");
+    gets(controller);
+
+    if (stricmp(controller, "nao") != 0)
+    {
+        /* 	Cadastra o cliente	*/
+    }
+    else
+    {
+
+        printf("\n\nDigite o CPF do cliente a que foi vendido.\n");
+        gets(cpf_do_cliente);
+
+        system("cls");
+        printf("Digite o nome do produto que foi vendido\n\n");
+        gets(stringzinha);
+
+        posicao_do_produto = busca_de_produtos(stringzinha);
+        if (posicao_do_produto != NULL)
+        { //	Verifica��o de sucesso ao encontrar o produto com determinado nome
+
+            printf("\nQuantas unidades desse produto devem ser retiradas do sistema?\n");
+            scanf("%d", &quantia);
+            fflush(stdin);
+
+            if (dados_prod[posicao_do_produto].quantidade < quantia)
+            {
+                printf("\nNao ha produtos o suficiente em estoque para concluir a venda. \n");
+                printf("Atualmente, existem apenas %d produtos em estoque.\n\n1. Vender o estoque inteiro.\n2. Retornar ao menu\n", dados_prod[posicao_do_produto].quantidade);
+                scanf("%c", &controller2);
+                fflush(stdin);
+
+                switch (controller2)
+                {
+                case '1':
+                    restante = dados_prod[posicao_do_produto].quantidade;
+                    dados_prod[posicao_do_produto].quantidade = 0;
+                    break;
+                case '2':
+                    //	Apenas atribuindo um valor diferente de 0 ao controller2, para que ele nao entre na verifica��o abaixo e n�o seja impressa uma nota.
+                    break;
+                }
+            }
+            dados_prod[posicao_do_produto].quantidade -= quantia;
+
+            printf("\nOperacao concluida com sucesso. \n");
+            printf("Agora, a quantia de %s em estoque e: %d", dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
+        }
+    }
+
+    if (controller2 == '0')
+    {   //	Controller2 � a vari�vel usada no caso em que n�o h� produtos em estoque o suficiente para efetuar a venda.
+        //	Logo, se houver algo nela, temos de emitir uma nota com a quantia que foi vendida, e n�o a total pedida previamente
+
+        emitir_nota(&dados_prod[posicao_do_produto], quantia, cpf_do_cliente); /*	envia como argumentos, o endere�o do vetor em que est� o produto,
+																				a quantia vendida e o cpf do cliente, para a inser��o na nota.*/
+    }
+    else if (controller2 == '1')
+    { //	Dessa vez, envia como argumento a quantia que foi vendida. (Que havia em estoque)
+        emitir_nota(&dados_prod[posicao_do_produto], restante, cpf_do_cliente);
+    }
+    //	Se o controller for 2, significa que simplesmente retornamos ao menu e nao houve venda, logo, sem nota.
+    else
+    {
+        printf("\n\nRetornando ao menu...\n\n");
+        Sleep(2000);
+        system("cls");
+    }
+}
+
+void entrada_de_produto()
+{ /*	A função de saída de produtos busca por um produto j� existente/cadastrado e subtrai da quantidade
+									em estoque, o valor digitado. Fun��es intermediarias: busca_de_produtos.
+									Fiz a fun��o de busca retornando o valor int correspondente � posi��o do produto no vetor de produtos.	*/
+
+    char stringzinha[30];
+    int posicao_do_produto, quantia;
+
+    system("cls");
+    printf("Digite o nome do produto que chegou aos estoques\n\n");
+    gets(stringzinha);
+
+    posicao_do_produto = busca_de_produtos(stringzinha);
+    if (posicao_do_produto != NULL)
+    { //	Verifica��o de sucesso ao encontrar o produto com determinado nome
+
+        printf("\nQuantas unidades desse produto devem ser adicionadas ao sistema?\n");
+        scanf("%d", &quantia);
+        fflush(stdin);
+
+        dados_prod[posicao_do_produto].quantidade += quantia;
+
+        printf("\nOperacao concluida com sucesso. \n");
+        printf("Agora, a quantia de %s em estoque e: %d", dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
+    }
+
+    else
+    {
+        printf("\n\nRetornando ao menu...\n\n");
+        Sleep(2000);
+        system("cls");
+    }
+}
+
+int busca_de_produtos(char *p)
+{ /*	*p � o parametro que receber� a string enviada como argumento � fun��o	*/
+
+    int posicao, i, controller = 0;
+
+    for (i = 0; i < max; i++)
+    { //	Inicia-se a verifica��o pelo vetor de produtos, procurando algum produto do nome recebido por parametro pela funcao
+        if (stricmp(dados_prod[i].nome, p) == 0)
+        {
+            posicao = i; //	A variavel posicao recebe a posicao do vetor em que esta o produto de nome procurado
+            controller = 1;
+            break;
+        }
+    }
+
+    if (controller == 0)
+    {
+        printf("\nNao ha nenhum produto cadastrado com o nome: %s\n\n", p);
+        Sleep(2000);
+        return NULL;
+    }
+
+    return posicao; //	A posicao do vetor � retornada
+}
+
+void emitir_nota(cadastro_prod *produto_vendido, int numvendido, char *cpfzinho) {
+
 }

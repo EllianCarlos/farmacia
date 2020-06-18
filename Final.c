@@ -6,6 +6,7 @@
 #include <string.h>
 #include <conio.h>
 #include <time.h>
+#include <windows.h>
 
 		//	Defini��o de constantes e variáveis globais
 
