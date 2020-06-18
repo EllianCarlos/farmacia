@@ -4,6 +4,7 @@
 #include<conio.h>
 #include<time.h>
 #include<windows.h>
+#include <math.h> // Usamos a funcao log10 para gerar notas
 
 #define MAX_CLIENTES 1000
 #define maxi 30
@@ -25,6 +26,14 @@ typedef struct usuario
     char nome[30], telefone[22], cpf[12]; //struct com os dados dos clientes a serem cadastrados no sistema da farmacia.
 } usuario;
 
+typedef struct compra {
+    int codigoProd;
+    char nomeProd[maxi];
+    char valorProd;
+    char quantidadeProd;
+    char nomeUser[30];
+    char cpf[maxi];
+} compra;
 
 // Declaracao das funcoes que serão utilizados
 usuario *alocar_cliente(int nclientes);
@@ -47,7 +56,7 @@ void menu_fluxo();
 int busca_de_produtos(char *p);
 void entrada_de_produto();
 void saida_de_produto();
-void emitir_nota(cadastro_prod *produto_vendido, int numvendido, char *cpfzinho);
+void emitir_nota(compra *cp);
 
 usuario cadastro_cliente[max]; //	Defini��o das estruturas de dados.
 cadastro_prod dados_prod[max]; //	Est�o como vari�veis globais, enquanto ainda n�o usamos arquivos de texto
@@ -870,6 +879,11 @@ void criar_produto(cadastro_prod *prod) {
 
     printf("Identificador do produto(inteiro):\t");
     scanf("%d", &(prod->identificador));
+    while ((prod->identificador) < 0 ) {
+        printf("Identificador do produto deve ser um inteiro maior que 0:\t");
+        scanf("%d", &(prod->identificador));
+    }
+    
     fflush(stdin);
 
     printf("Nome do produto:\t");
@@ -1420,6 +1434,48 @@ int busca_de_produtos(char *p)
     return posicao; //	A posicao do vetor � retornada
 }
 
-void emitir_nota(cadastro_prod *produto_vendido, int numvendido, char *cpfzinho) {
+void emitir_nota(compra *cp) {
+    FILE * arq;
+    int i;
 
+    for(i = 0; i < 5; i++)
+        (cp->cpf)[i]='X';
+
+    int hours = (int)time(NULL)/3600; // gerar timestamp para nota através das horas contadas desde 1 de janeiro de 1970
+    char *timestamp = (char *)malloc(sizeof(char) * (1 + (int)log10(hours)));
+
+    if(timestamp == NULL) {
+        printf("Problema ao alocar memoria");
+    }
+
+    sprintf(timestamp, "%d", hours);
+
+    if ((arq = fopen( strcat(strcat(strcat("nota-fiscal-", cp->cpf), timestamp), ".txt"), "w")) == NULL)
+    { /*verifica se o arquivo abre corretamente*/
+        printf("Erro ao abrir o arquivo!");
+    }
+
+
+    fseek(arq, 0, SEEK_SET);
+    fwrite("NOTA FISCAL DE COMPRA\n Usuario:", sizeof("NOTA FISCAL DE COMPRA\n Usuario:"), 1, arq);
+    fseek(arq, 0, SEEK_CUR);
+    fwrite(cp->nomeUser, sizeof(cp->nomeUser), 1, arq);
+    fseek(arq, 0, SEEK_CUR);
+    fwrite("\tCPF:", sizeof("\tCPF:"), 1, arq);
+    fseek(arq, 0, SEEK_CUR);
+    fwrite(cp->cpf, sizeof(cp->cpf), 1, arq);
+    fseek(arq, 0, SEEK_CUR);
+    fwrite("\n\n\nProduto:\n\t", sizeof("\n\n\nProduto:\n\t:"), 1, arq);
+    fseek(arq, 0, SEEK_CUR);
+    fwrite(itoa(cp->quantidadeProd), sizeof(itoa(cp->quantidadeProd)), 1, arq);
+    fseek(arq, 0, SEEK_CUR);
+    fwrite(" x \t", sizeof(" x \t"), 1, arq);
+    fseek(arq, 0, SEEK_CUR);
+    fwrite(cp->valorProd, sizeof(cp->valorProd), 1, arq);
+
+    fseek(arq, 0, SEEK_CUR);
+    fwrite("\n\n\t\ttotal:", sizeof("\n\n\t\ttotal:"), 1, arq);
+    fseek(arq, 0, SEEK_CUR);
+    fwrite(itoa(cp->quantidadeProd * cp->valorProd), sizeof(itoa(cp->quantidadeProd * cp->valorProd)), 1, arq);
+    fclose(arq);
 }
