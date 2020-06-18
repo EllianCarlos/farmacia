@@ -128,6 +128,7 @@ void altera_prod(){                 /*function para fazer qualquer altera��o
         }
     }
 }
+
 void painel(){                          /*function do 'menu' do programa*/
     char verificador[5], anulador[5];
     int j, k;
@@ -164,10 +165,10 @@ void painel(){                          /*function do 'menu' do programa*/
             }
         }
     }
-            printf("O produto ja tem cadastro?\n");
-            gets(anulador);
-            stricmp("verficador", "anulador");
-        }
+    printf("O produto ja tem cadastro?\n");
+    gets(anulador);
+    stricmp("verficador", "anulador");
+}
 int main(){      /*function main que chama e realiza as functions j� declaradas, alocando dinamicamente espa�o na memoria para cadastrar os produtos*/
     
     int j=1;

@@ -139,7 +139,7 @@ usuario *inserir_cliente(){
     system("pause");
 }
 
-/* fun��o para arquivar o ponteiro com os dados do cliente cadastrado
+/* função para arquivar o ponteiro com os dados do cliente cadastrado
 no arquivo binario que funciona como o banco de dados de clientes */
 
 void arquivar_cliente(usuario *cliente_salvar){
@@ -193,7 +193,7 @@ void lista_clientes(){
 
     fscanf(num, "%d", &numclientes);
 
-    //a variavel numclientes l� a quantidade de cadastros e ir� especificar o tamanho de mem�ria necess�rio a ser alocado.
+    //a variavel numclientes lê a quantidade de cadastros e ir� especificar o tamanho de mem�ria necess�rio a ser alocado.
     fclose(num);
 
 

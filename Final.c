@@ -1,21 +1,21 @@
-/*	Projeto da farm�cia gen�rica 	*/
+/*	Projeto da farmácia genérica 	*/
 
 
-#include <stdio.h>			// 	Inclus�o de bibliotecas
+#include <stdio.h>			// 	Inclusão de bibliotecas
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
 #include <time.h>
 
-		//	Defini��o de constantes e vari�veis globais
+		//	Defini��o de constantes e variáveis globais
 
-#define max 1000	//	Define o n�mero m�ximo de produtos e clientes cadastrados no sistema //
-int n = 1;			//Usada p/ id a quantidade de usuarios j� cadastrados e iniciar o vetor na posi��o livre atual el na fun��o lista //
+#define max 1000	//	Define o número máximo de produtos e clientes cadastrados no sistema //
+int n = 1;			//Usada p/ id a quantidade de usuarios já cadastrados e iniciar o vetor na posi��o livre atual el na fun��o lista //
 
 #define maxo 2		//	Usada na parte de produtos
 #define maxi 30
 
-	/*	Defini��o das structs usadas 	*/
+	/*	Definição das structs usadas 	*/
 
 struct cadastro_prod{								//	Os produtos possuem um tipo, um nome, um fornecedor, um pre�o
     char tipo[maxi], nome[maxi], fornecedor[maxi];		//	Um numero identificador e uma quantidade em estoque
@@ -131,7 +131,7 @@ void menu_produto() {
    	char verificador[5];
     int i;
 
-    printf("\nO produto ja tem cadastro?\n");
+    printf("\nO produto ja tem cadastro?(sim ou nao)\n");
     gets(verificador);
 
     if(stricmp(verificador, "nao") == 0){
@@ -291,7 +291,7 @@ struct usuario pesquisa_cliente (struct usuario *cadastro_cliente){
     }
 }
 
-		/*	Parte de fluxo (entrada e sa�da de produtos)	(Jo�o Vitor)	*/
+		/*	Parte de fluxo (entrada e saída de produtos)	(João Vitor)	*/
 		//	Falta a parte do carrinho de compras...
 
 void menu_fluxo () {
