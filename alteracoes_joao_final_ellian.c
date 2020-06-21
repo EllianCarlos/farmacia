@@ -878,13 +878,13 @@ void criar_produto(cadastro_prod *prod) {	//	Cadastra um produto no sistema.
         printf("Identificador do produto deve ser um inteiro maior que 0:\t");
         scanf("%d", &(prod->identificador));
     }
-    
+
     fflush(stdin);
 
     printf("Nome do produto:\t");					//	Solicita o nome do produto
     gets(prod->nome);
 
-    printf("Quantidade:\t");						//	A quantidade que já entrou em estoque, caso haja 
+    printf("Quantidade:\t");						//	A quantidade que já entrou em estoque, caso haja
     scanf("%d", &(prod->quantidade));
     fflush(stdin);
 
@@ -905,7 +905,7 @@ void recebe_inf()
 
     cadastro_prod *prod = (cadastro_prod *)calloc(1, sizeof(cadastro_prod));
     criar_produto(prod);
-    
+
     fseek(arq, 0, SEEK_END); /* armazenagem das infos no arquivo */
     fwrite((void *)prod, sizeof(cadastro_prod), 1, arq);
     fclose(arq);
@@ -1301,25 +1301,25 @@ void saida_de_produto()
     int posicao_do_produto, quantia, restante, quantx;
     FILE *arq = fopen("dados_farmacia.txt", "rb+");	//	Abrir o arquivo com os dados dos produtos
     FILE *num_produtos = fopen ("num_produtos.txt", "rb+");		//	Abrir o arquivo com o numero de produtos cadastrados
-    
+
     if (arq == NULL) {
     	printf ("\nErro ao abrir o arquivo dados_farmacia.txt\n");	//	Verificações de abertura
     	exit(1);
     }
-    
+
     if (num_produtos == NULL) {
     	printf ("\nErro ao abrir o arquivo num_produtos.txt\n");
     	exit(1);
     }
-    
+
 	fseek(num_produtos, 0, SEEK_SET);		//	Armazenando a quantia de produtos na variável quantx
 	fread (&quantx, sizeof(int), 1, num_produtos);
 	fclose (num_produtos);					//	Já fechando o arquivo
-	
+
     fseek(arq, 0, SEEK_SET);				//	Armazenando os dados dos produtos na variável dados_prod
     fread (dados_prod, sizeof(cadastro_prod), quantx, arq);
     fclose (arq);							//	Já fechando o arquivo
-	
+
     printf("\n O cliente a quem a venda esta sendo realizada, possui cadastro? sim\nao\n");
     gets(controller);
 
@@ -1330,9 +1330,9 @@ void saida_de_produto()
         arquivar_cliente(cliente_cadastro);         // 	salva as informaï¿½ï¿½es do ponteiro no arquivo binï¿½rio.
         arq_num_clientes(1);                  		// 	atualiza o nï¿½mero de cadastros em um arquivo txt.
         system("cls");
-        
+
         strcpy (cpf_do_cliente, cliente_cadastro->cpf);	//	Salvando o cpf do cliente recém cadastrado na nossa variavel de cpf
-        
+
         printf("Digite o nome do produto que foi vendido\n\n");
         gets(stringzinha);
 
@@ -1366,7 +1366,7 @@ void saida_de_produto()
 
             printf("\nOperacao concluida com sucesso. \n");
             printf("Agora, a quantia de %s em estoque e: %d", dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
-            
+
             arq = fopen("dados_farmacia.txt", "wb+");	//	Abrir o arquivo com os dados dos produtos para atualiza-los
             fwrite (dados_prod, quantx, sizeof(cadastro_prod), arq);
             fclose (arq);
@@ -1375,7 +1375,7 @@ void saida_de_produto()
         	printf ("Produto nao encontrado.\n");
         	controller2 = '2';
         }
-        
+
     }
     else if (stricmp(controller, "sim") == 0) {
 
@@ -1416,7 +1416,7 @@ void saida_de_produto()
 
             printf("\nOperacao concluida com sucesso. \n");
             printf("Agora, a quantia de %s em estoque e: %d", dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
-        	
+
 			arq = fopen("dados_farmacia.txt", "wb+");	//	Abrir o arquivo com os dados dos produtos para atualiza-los
             fwrite (dados_prod, quantx, sizeof(cadastro_prod), arq);
             fclose (arq);
@@ -1427,12 +1427,13 @@ void saida_de_produto()
     {   //	Controller2 ï¿½ a variï¿½vel usada no caso em que nï¿½o hï¿½ produtos em estoque o suficiente para efetuar a venda.
         //	Logo, se houver algo nela, temos de emitir uma nota com a quantia que foi vendida, e nao a total pedida previamente
 
-        emitir_nota(&dados_prod[posicao_do_produto], quantia, cpf_do_cliente); /*	envia como argumentos, o endereco do vetor em que esta o produto,
+        //emitir_nota(&dados_prod[posicao_do_produto], quantia, cpf_do_cliente);
+        /*	envia como argumentos, o endereco do vetor em que esta o produto,
 																				a quantia vendida e o cpf do cliente, para a insercao na nota.*/
     }
     else if (controller2 == '1')
     { //	Dessa vez, envia como argumento a quantia que foi vendida. (Que havia em estoque)
-        emitir_nota(&dados_prod[posicao_do_produto], restante, cpf_do_cliente);
+        //emitir_nota(&dados_prod[posicao_do_produto], restante, cpf_do_cliente);
     }
     //	Se o controller for 2, significa que simplesmente retornamos ao menu e nao houve venda, logo, sem nota.
     else
@@ -1447,27 +1448,27 @@ void entrada_de_produto()
 { /*	A funcao de entrada de produtos busca por um produto ja existente/cadastrado e soma da quantidade
 		em estoque, o valor digitado. funcionalidades intermediarias: busca_de_produtos.
 		Fiz a funcao de busca retornando o valor int correspondente a posicao do produto no vetor de produtos.	*/
-	
+
     char stringzinha[30];
     int posicao_do_produto, quantia, quantx;
-    
+
     FILE *arq = fopen("dados_farmacia.txt", "rb+");	//	Abrir o arquivo com os dados dos produtos
     FILE *num_produtos = fopen ("num_produtos.txt", "rb+");		//	Abrir o arquivo com o numero de produtos cadastrados
-    
+
     if (arq == NULL) {
     	printf ("\nErro ao abrir o arquivo dados_farmacia.txt\n");	//	Verificações de abertura
     	exit(1);
     }
-    
+
     if (num_produtos == NULL) {
     	printf ("\nErro ao abrir o arquivo num_produtos.txt\n");
     	exit(1);
     }
-    
+
 	fseek(num_produtos, 0, SEEK_SET);		//	Armazenando a quantia de produtos na variável quantx
 	fread (&quantx, sizeof(int), 1, num_produtos);
 	fclose (num_produtos);					//	Já fechando o arquivo
-	
+
     fseek(arq, 0, SEEK_SET);				//	Armazenando os dados dos produtos na variável dados_prod
     fread (dados_prod, sizeof(cadastro_prod), quantx, arq);
     fclose (arq);							//	Já fechando o arquivo
@@ -1488,7 +1489,7 @@ void entrada_de_produto()
 
         printf("\nOperacao concluida com sucesso. \n");
         printf("Agora, a quantia de %s em estoque e: %d", dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
-    
+
     	arq = fopen("dados_farmacia.txt", "wb+");	//	Abrir o arquivo com os dados dos produtos para atualiza-los
         fwrite (dados_prod, quantx, sizeof(cadastro_prod), arq));
         fclose (arq);
@@ -1504,31 +1505,31 @@ void entrada_de_produto()
 
 int busca_de_produtos(char *p)
 { /*	*p e o parametro que recebera a string enviada como argumento para a funcao	*/
-	
+
     int posicao, i, controller = 0, quantx;
-    
+
     FILE *arq = fopen("dados_farmacia.txt", "rb+");	//	Abrir o arquivo com os dados dos produtos
     FILE *num_produtos = fopen ("num_produtos.txt", "rb+");		//	Abrir o arquivo com o numero de produtos cadastrados
-    
+
     if (arq == NULL) {
     	printf ("\nErro ao abrir o arquivo dados_farmacia.txt\n");	//	Verificações de abertura
     	exit(1);
     }
-    
+
     if (num_produtos == NULL) {
     	printf ("\nErro ao abrir o arquivo num_produtos.txt\n");
     	exit(1);
     }
-    
+
 	fseek(num_produtos, 0, SEEK_SET);		//	Armazenando a quantia de produtos na variável quantx
 	fread (&quantx, sizeof(int), 1, num_produtos);
 	fclose (num_produtos);					//	Já fechando o arquivo
-	
+
     fseek(arq, 0, SEEK_SET);				//	Armazenando os dados dos produtos do arquivo na variável dados_prod
     fread (dados_prod, sizeof(cadastro_prod), quantx, arq);
     fclose (arq);							//	Já fechando o arquivo
-	
-	
+
+
     for (i = 0; i < max; i++)
     { //	Inicia-se a verificacao pelo vetor de produtos, procurando algum produto do nome recebido por parametro pela funcao
         if (stricmp(dados_prod[i].nome, p) == 0)
@@ -1594,4 +1595,4 @@ void emitir_nota(compra *cp) {
     fseek(arq, 0, SEEK_CUR);
     fwrite(itoa(cp->quantidadeProd * cp->valorProd), sizeof(itoa(cp->quantidadeProd * cp->valorProd)), 1, arq);
     fclose(arq);
-}	
+}
