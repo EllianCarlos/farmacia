@@ -8,10 +8,12 @@
 
 #define MAX_CLIENTES 1000
 #define maxi 30
-#define max 2
+#define max 100
 #define MAX_ITENS_CARRINHO 30
 
 #define DBG printf("estou aqui\n")
+#define DBGs(s) printf("\n%s\n", s);
+#define DBGi(i) printf("\n%d\n", i);
 
 int n = 1; //Usada p/ id a quantidade de usuarios já cadastrados e iniciar o vetor na posi��o livre atual el na fun��o lista //
 
@@ -964,7 +966,7 @@ void busca_prod()
     printf("\n\n");
 
     fseek(arq, 0, SEEK_SET); /* procura pelo produto no arquivo */
-    fread(dados_prod, sizeof(struct cadastro_prod), quantx, arq);
+    fread(dados_prod, sizeof(cadastro_prod), quantx, arq);
 
     mostrar_prod(verificador, quantx);
 
@@ -1001,6 +1003,7 @@ void mostrar_prod(int verificador, int quantx)
 
     for (i = 0; i < quantx; i++)
     { /* laço for para alterar a quantidadde do produto ja cadastrado */
+        DBGi(dados_prod[i].identificador);
         if (verificador == dados_prod[i].identificador)
         {
             // printf("Altere a quantidade do produto (atual = %d):\n", dados_prod->quantidade);
@@ -1021,7 +1024,7 @@ void mostrar_prod(int verificador, int quantx)
         printf("Produto nao encontrado!\n\n");
     }
     fseek(arq, 0, SEEK_SET);
-    fwrite(dados_prod, sizeof(struct cadastro_prod), 1, arq);
+    fwrite(dados_prod, sizeof(cadastro_prod), 1, arq);
     fclose(arq);
 }
 
@@ -1308,41 +1311,43 @@ cadastro_prod *busca_prod_retorno(int identificador){
         printf("\nErro ao abrir o arquivo!\n");
     }
 
+
+    fseek(numprod, 0, SEEK_SET);
+    fscanf(numprod, "%d", &quantx);
+    fclose(numprod);
+    
     if ((arq = fopen("dados_farmacia.txt", "rb+")) == NULL)
     {
         printf("Erro ao abrir o arquivo!");
     }
 
-    fseek(numprod, 0, SEEK_SET);
-    fscanf(numprod, "%d", &quantx);
-    fclose(numprod);
-
     fseek(arq, 0, SEEK_SET); /* procura pelo produto no arquivo */
-    fread(dados_prod, sizeof(struct cadastro_prod), quantx, arq);
-    cadastro_prod *produto = (cadastro_prod *)malloc(sizeof(cadastro_prod));
+    fread(dados_prod, sizeof(cadastro_prod), quantx, arq);
+    cadastro_prod *produto = (cadastro_prod *)malloc(2*sizeof(cadastro_prod));
+    
 
     for (i = 0; i < quantx; i++)
     { /* laco for para alterar a quantidadde do produto ja cadastrado */
         if (identificador == dados_prod[i].identificador)
         {
 
-            strncpy(produto->fornecedor, dados_prod[i].fornecedor, sizeof(produto->fornecedor));
-            strncpy(produto->nome, dados_prod[i].nome, sizeof(produto->nome));
-            strncpy(produto->tipo, dados_prod[i].tipo, sizeof(produto->tipo));
-            // DBG;
+            strncpy(produto->fornecedor, dados_prod[i].fornecedor, maxi * sizeof(char));
+            strncpy(produto->nome, dados_prod[i].nome, maxi * sizeof(char));
+            strncpy(produto->tipo, dados_prod[i].tipo, maxi * sizeof(char));
             produto->identificador = dados_prod[i].identificador;
             produto->preco = dados_prod[i].preco;
             produto->quantidade = dados_prod[i].quantidade;
             j++;
         }
     }
+
     if (j == 0)
     { /* laço de resposta para caso o produto não seja encontrado (não cadastrado ainda) */
         printf("Produto nao encontrado!\n\n");
         return NULL;
     }
     fseek(arq, 0, SEEK_SET);
-    fwrite(dados_prod, sizeof(struct cadastro_prod), 1, arq);
+    fwrite(dados_prod, sizeof(cadastro_prod), 1, arq);
     fclose(arq);
 
     return produto;
@@ -1658,11 +1663,11 @@ void emitir_nota(compra *cp) {
     }
 
     sprintf(timestamp, "%d", hours);
-
-    if ((arq = fopen( strcat(strcat(strcat("nota-fiscal-", cp->cpf), timestamp), ".txt"), "w")) == NULL)
+    if ((arq = fopen( strcat(strcat(strcat("nota-fiscal-", cp->cpf), timestamp), ".txt"), "w")) == NULL) // O erro é aqui dã
     { // verifica se o arquivo abre corretamente
         printf("Erro ao abrir o arquivo!");
     }
+    DBG;
 
 
     fseek(arq, 0, SEEK_SET);
@@ -1681,12 +1686,12 @@ void emitir_nota(compra *cp) {
     fseek(arq, 0, SEEK_CUR);
     fwrite(" x \t", sizeof(" x \t"), 1, arq);
     fseek(arq, 0, SEEK_CUR);
-    sprintf(salvarPrecoUnitario, "%d", cp->valorProd);
+    sprintf(salvarPrecoUnitario, "%f", cp->valorProd);
     fwrite(salvarPrecoUnitario, sizeof(salvarPrecoUnitario), 1, arq);
     fseek(arq, 0, SEEK_CUR);
     fwrite("\n\n\t\ttotal:", sizeof("\n\n\t\ttotal:"), 1, arq);
     fseek(arq, 0, SEEK_CUR);
-    sprintf(salvarPreco, "%d", (cp->quantidadeProd * cp->valorProd));
+    sprintf(salvarPreco, "%f", ((float)cp->quantidadeProd * cp->valorProd));
     fwrite(salvarPreco, sizeof(salvarPreco), 1, arq);
     fclose(arq);
 }
@@ -1695,22 +1700,22 @@ void emitir_nota(compra *cp) {
  Funcoes relacionadas ao carrinho
  */
 
-void fazer_compra(usuario user, cadastro_prod produto, int quantidade, compra *cp) {
-    
-    strcpy(cp->nomeUser, user.nome);
-    strcpy(cp->cpf, user.cpf);
-    strcpy(cp->nomeProd, produto.nome);
-    cp->codigoProd = produto.identificador;
-    cp->valorProd = produto.preco;
+void fazer_compra(usuario *user, cadastro_prod *produto, int quantidade, compra *cp) {
+    strncpy(cp->nomeUser, user->nome, sizeof(cp->nomeUser));
+    strncpy(cp->cpf, user->cpf, sizeof(cp->cpf));
+    strncpy(cp->nomeProd, produto->nome, sizeof(cp->nomeProd));
+    DBG;
+    cp->codigoProd = produto->identificador;
+    cp->valorProd = produto->preco;
     cp->quantidadeProd = quantidade;
 }
 
 carrinho *iniciar_carrinho() {
-    carrinho *car;
+    carrinho *car = (carrinho *)calloc(1, sizeof(carrinho));
 
     int i;
     char cpfBuscar[12];
-        
+
     printf("Insira o cpf do usuario: ");
     gets(cpfBuscar);
     int numclientes, negativo = 0;
@@ -1741,7 +1746,7 @@ carrinho *iniciar_carrinho() {
     /* o ponteiro p salva as informacoes do usuario procurado e o
     retornado pela funcao. */
 
-    c = (usuario *)calloc(numclientes, sizeof(usuario)); // aloca um ponteiro para armazenar os cadastros lidos do arquivo.
+    c = (usuario *)calloc(numclientes+1, sizeof(usuario)); // aloca um ponteiro para armazenar os cadastros lidos do arquivo.
     if (c == NULL)
     {
         printf("Erro memoria insuficiente ");
@@ -1762,16 +1767,15 @@ carrinho *iniciar_carrinho() {
 
     fclose(arq);
 
-    if (negativo == 0){
+    if (negativo == 0 || p == NULL){
         printf("\n \nNao encontramos o CPF informado. ");
         exit(0);
     }
 
-    free(c); 
-
     int numeroDeItens = 0;
     int identificador = 0;
     int quantidade = 0;
+    cadastro_prod *prod = (cadastro_prod *)calloc(1, sizeof(cadastro_prod));
     do {
         if(numeroDeItens >= 30 ) {
             printf("Numero maximo de 30 itens diferentes por carinho\n");
@@ -1782,28 +1786,27 @@ carrinho *iniciar_carrinho() {
         scanf("%d", &identificador);
 
         if(identificador <= 0){
-            printf("Identificador 0\n");
-            return NULL;
+            printf("Fechando carrinho... \n");
+            break;
         }
 
-        printf("Quantos desses item voce deseja?");
+        printf("Quantos desses item voce deseja? ");
         scanf("%d", &quantidade);
 
         if(quantidade <= 0)
         {
             printf("Nao e possível ter uma quantidade menor ou igual a 0\n");
-            return NULL;
+            continue;
         }
 
-        
-        cadastro_prod *prod = busca_prod_retorno(identificador);     
-
+        prod = busca_prod_retorno(identificador);     
         if(prod == NULL) {
             printf("Houve uma falha ao buscar o produto\n");
             return NULL;
         }
-
-        fazer_compra(*p, *prod, quantidade, &(car->compras[numeroDeItens]));
+        
+        fazer_compra(p, prod, quantidade, &(car->compras[numeroDeItens]) );
+        DBG;  
         // strcpy(car->compras[numeroDeItens].nomeUser, p->nome);
         // strcpy(car->compras[numeroDeItens].cpf, p->cpf);
         // strcpy(car->compras[numeroDeItens].nomeProd, p->nome);
@@ -1822,16 +1825,17 @@ carrinho *iniciar_carrinho() {
 }
 
 void menu_carrinho() {
-    carrinho *c = iniciar_carrinho();
-
+    carrinho *c = (carrinho *)calloc(1, sizeof(carrinho));
+    c = iniciar_carrinho();
+    
     if(c == NULL) {
-        printf("Erro ao finalizar o carrinho");
+        printf("Erro ao finalizar o carrinho\0");
         return;
     }
 
     int i = 0;
 
-    // for(i = 0; i < c->numeroDeCompras; i++) {
-    //     emitir_nota( &(c->compras[i]) );
-    // }
+    for(i = 0; i < c->numeroDeCompras; i++) {
+        emitir_nota( &(c->compras[i]) ); //FIXME: erro na geração de nota
+    }
 }
