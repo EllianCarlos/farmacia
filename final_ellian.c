@@ -472,8 +472,8 @@ void alterar_nome_cliente()
     fscanf(num, "%d", &numclientes);
     fclose(num);
 
-    /* Abre o arquivo e l� o n�mero de cadastros armazenados
-    no banco de dados at� o momento. */
+    /* Abre o arquivo e le o numero de cadastros armazenados
+    no banco de dados ate o momento. */
 
     arq = fopen("dados_clientes.bin", "rb+");
     if (arq == NULL)
@@ -493,7 +493,7 @@ void alterar_nome_cliente()
     }
 
     fseek(arq, 0, SEEK_SET);
-    fread(c, sizeof(usuario), numclientes, arq); //l� o arquivo bin�rio contendo os cadastros dos clientes e armazena no ponteiro c.
+    fread(c, sizeof(usuario), numclientes, arq); //le o arquivo binario contendo os cadastros dos clientes e armazena no ponteiro c.
     fclose(arq);
 
     printf("Digite o CPF do cliente a ser buscado: ");
@@ -504,7 +504,6 @@ void alterar_nome_cliente()
     {
         if (strcmp(((c + i)->cpf), cpf) == 0)
         {
-
             printf("\n \n Usuario Encontrado. \n\n\n");
             printf("\n _______________Cadastro[%d]:_______________ \n", i + 1);
             printf("\n Nome: %s", (c + i)->nome);
@@ -556,8 +555,8 @@ void alterar_telefone_cliente()
     fscanf(num, "%d", &numclientes);
     fclose(num);
 
-    /* Abre o arquivo e l� o n�mero de cadastros armazenados
-    no banco de dados at� o momento. */
+    /* Abre o arquivo e le o numero de cadastros armazenados
+    no banco de dados ate o momento. */
 
     arq = fopen("dados_clientes.bin", "rb+");
     if (arq == NULL)
@@ -577,7 +576,7 @@ void alterar_telefone_cliente()
     }
 
     fseek(arq, 0, SEEK_SET);
-    fread(c, sizeof(usuario), numclientes, arq); //l� o arquivo bin�rio contendo os cadastros dos clientes e armazena no ponteiro c.
+    fread(c, sizeof(usuario), numclientes, arq); //le o arquivo binario contendo os cadastros dos clientes e armazena no ponteiro c.
     fclose(arq);
 
     printf("Digite o CPF do cliente a ser buscado: ");
@@ -588,7 +587,6 @@ void alterar_telefone_cliente()
     {
         if (strcmp(((c + i)->cpf), cpf) == 0)
         {
-
             printf("\n \n Usuario Encontrado. \n\n\n");
             printf("\n _______________Cadastro[%d]:_______________ \n", i + 1);
             printf("\n Nome: %s", (c + i)->nome);
@@ -640,8 +638,8 @@ void alterar_cpf_cliente()
     fscanf(num, "%d", &numclientes);
     fclose(num);
 
-    /* Abre o arquivo e l� o n�mero de cadastros armazenados
-    no banco de dados at� o momento. */
+    /* Abre o arquivo e le o numero de cadastros armazenados
+    no banco de dados ate o momento. */
 
     arq = fopen("dados_clientes.bin", "rb+");
     if (arq == NULL)
@@ -661,7 +659,7 @@ void alterar_cpf_cliente()
     }
 
     fseek(arq, 0, SEEK_SET);
-    fread(c, sizeof(usuario), numclientes, arq); //l� o arquivo bin�rio contendo os cadastros dos clientes e armazena no ponteiro c.
+    fread(c, sizeof(usuario), numclientes, arq); //le o arquivo binario contendo os cadastros dos clientes e armazena no ponteiro c.
     fclose(arq);
 
     printf("Digite o CPF do cliente a ser buscado: ");
@@ -701,7 +699,7 @@ void alterar_cpf_cliente()
     }
     fwrite(c, sizeof(usuario), numclientes, arq);
     fclose(arq);
-    free(c); //libera a mem�ria alocada pelo ponteiro c.
+    free(c); //libera a memoria alocada pelo ponteiro c.
 }
 
 /* função que exclui o cadastro de um cliente. */
@@ -745,7 +743,7 @@ void excluir_cliente()
     }
 
     fseek(arq, 0, SEEK_SET);
-    fread(c, sizeof(usuario), numclientes, arq); //l� o arquivo bin�rio contendo os cadastros dos clientes e armazena no ponteiro c.
+    fread(c, sizeof(usuario), numclientes, arq); //le o arquivo binario contendo os cadastros dos clientes e armazena no ponteiro c.
     fclose(arq);
 
     printf("Digite o CPF do cliente a ser excluido: ");
@@ -800,22 +798,20 @@ void excluir_cliente()
     }
 
     fseek(num, 0, SEEK_SET);
-    fprintf(num, "%d", numclientes); //atualiza o n�mero de cadastros salvos no banco de dados.
+    fprintf(num, "%d", numclientes); //atualiza o numero de cadastros salvos no banco de dados.
     fclose(num);
     free(c);
 }
 
 
-/* FINAL DA PARTE DA GIOVANA */
+/* FINAL DA PARTE DA GIOVANNA */
 
 /* INICIO DA PARTE DO THALES E DO FLAVIO */
 
 void menu_produto()
 {
-
     int verificador = 0;
     int i;
-
 
     while(verificador != 6) {
         printf("\t \t \t \t \t \n _________________________________________Menu de Produtos_________________________________________ \n ");
@@ -911,7 +907,7 @@ void recebe_inf()
     cadastro_prod *prod = (cadastro_prod *)calloc(1, sizeof(cadastro_prod));
     criar_produto(prod);
     
-    fseek(arq, 0, SEEK_END); /* armazenagem das infos no arquivo */
+    fseek(arq, 0, SEEK_END); /* armazenamento das infos no arquivo */
     fwrite((void *)prod, sizeof(cadastro_prod), 1, arq);
     fclose(arq);
     free(prod);
