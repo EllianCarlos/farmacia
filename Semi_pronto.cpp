@@ -15,7 +15,7 @@
 #define DBGs(s) printf("\n%s\n", s);
 #define DBGi(i) printf("\n%d\n", i);
 
-int n = 1; //Usada p/ id a quantidade de usuarios já cadastrados e iniciar o vetor na posi��o livre atual el na fun��o lista //
+int n = 1; //Usada p/ id a quantidade de usuarios ja cadastrados e iniciar o vetor na posicao livre atual na funcao lista //
 
 
 // Criacao dos tipos que serao utilizados
@@ -23,7 +23,7 @@ typedef struct cadastro_prod
 {                                                  /*struct com as infos do produto*/
     char tipo[maxi], nome[maxi], fornecedor[maxi]; /*tipo = natureza do produto*/
     float preco;
-    int identificador, quantidade; /*identificador = numero do produto para sua computa��o no software interno*/
+    int identificador, quantidade; /*identificador = numero do produto para sua computacao no software interno*/
 } cadastro_prod;
 
 typedef struct usuario
@@ -31,7 +31,7 @@ typedef struct usuario
     char nome[30], telefone[22], cpf[12]; //struct com os dados dos clientes a serem cadastrados no sistema da farmacia.
 } usuario;
 
-typedef struct compra {	// Struct utilizada na funcionalidade do carrinho e emiss�o de nota
+typedef struct compra {	// Struct utilizada na funcionalidade do carrinho e emissao de nota
     int codigoProd;
     int quantidadeProd;
     float valorProd;
@@ -51,7 +51,7 @@ usuario *inserir_cliente();
 usuario *buscar_cliente();
 
 void menu_usuario();
-void arquivar_cliente(usuario *);    // prototipo de fun�oes utilizadas no menu de cadastro dos clientes.
+void arquivar_cliente(usuario *);    // prototipo de funcoes utilizadas no menu de cadastro dos clientes.
 void lista_clientes();
 void lista_produtos();
 void altera_prod();
@@ -78,8 +78,8 @@ void emitir_nota(compra *cp);
 carrinho *iniciar_carrinho();
 void menu_carrinho();
 
-usuario cadastro_cliente[max]; //	Defini��o das estruturas de dados.
-cadastro_prod dados_prod[max]; //	Est�o como vari�veis globais, enquanto ainda n�o usamos arquivos
+usuario cadastro_cliente[max]; //	Definicao das estruturas de dados.
+cadastro_prod dados_prod[max]; //	Estao como variaveis globais para facilitar o uso, mas houve bastante cuidado no uso.
 
 
 int main() {
@@ -88,7 +88,7 @@ int main() {
     int controller = 0;
 
 
-    while (1)	//	Menu principal, exibe as op��es principais entre as funcionalidades do programa
+    while (1)	//	Menu principal, exibe as opcoes principais entre as funcionalidades do programa
     {
 
         printf("Bem vindo ao sistema gerencial da farmacia.\n\nQual menu deseja utilizar?\n\n");
@@ -98,7 +98,7 @@ int main() {
         switch (controller)
         {
             case 1:
-                menu_usuario();
+                menu_usuario();		//	Cada opcao selecionada refere o respectivo menu
                 break;
             case 2:
                 menu_produto();
@@ -148,15 +148,15 @@ void menu_usuario()
             case 1:
                 system("cls");
                 cliente_cadastro = alocar_cliente(nclientes); //aloca um ponteiro usuario para cadastro.
-                cliente_cadastro = inserir_cliente();         //armazena as informa��es de entrada de cadastro.
-                arquivar_cliente(cliente_cadastro);           // salva as informa��es do ponteiro no arquivo bin�rio.
-                arq_num_clientes(nclientes);                  // atualiza o n�mero de cadastros em um arquivo txt.
+                cliente_cadastro = inserir_cliente();         //armazena as informacoes de entrada de cadastro.
+                arquivar_cliente(cliente_cadastro);           // salva as informacoes do ponteiro no arquivo binario.
+                arq_num_clientes(nclientes);                  // atualiza o numero de cadastros em um arquivo txt.
                 system("cls");
                 break;
 
             case 2:
                 system("cls");
-                lista_clientes(); //lista todos os clientes armazenados at� o momento no arquivo.
+                lista_clientes(); //lista todos os clientes armazenados ate o momento no arquivo.
                 system("pause");
                 system("cls");
                 break;
@@ -176,7 +176,7 @@ void menu_usuario()
 
             case 5:
                 system("cls");
-                excluir_cliente(); // exclui um cliente do arquivo bin�rio e atualiza o n�mero total de cadastros no txt.
+                excluir_cliente(); // exclui um cliente do arquivo binario e atualiza o numero total de cadastros no txt.
                 system("cls");
                 break;
 
@@ -251,9 +251,9 @@ void arquivar_cliente(usuario *cliente_salvar)
     fclose(arq);
 }
 
-/* esse arquivo em txt grava o numero de clientes cadastrados e �
-usado por outras fun��es abaixo, ele se faz necess�rio para que se
-saiba a quantidade de cadastros j� salvos mesmo se o programa
+/* esse arquivo em txt grava o numero de clientes cadastrados e e
+usado por outras funcoes abaixo, ele se faz necessario para que se
+saiba a quantidade de cadastros ja salvos mesmo se o programa
 for fechado e aberto novamente. */
 
 void arq_num_clientes(int nclientes)
@@ -292,7 +292,7 @@ void lista_clientes()
 
     fscanf(num, "%d", &numclientes);
 
-    //a variavel numclientes lê a quantidade de cadastros e ir� especificar o tamanho de mem�ria necess�rio a ser alocado.
+    //a variavel numclientes lê a quantidade de cadastros e ira especificar o tamanho de memoria necessario a ser alocado.
     fclose(num);
 
     arq = fopen("dados_clientes.bin", "rb+"); //abre o arq binario para leitura.
@@ -304,7 +304,7 @@ void lista_clientes()
 
     usuario *c;
 
-    c = (usuario *)calloc(numclientes, sizeof(usuario)); //aloca o ponteiro conforme o n�mero de cadastrados no arquivo.
+    c = (usuario *)calloc(numclientes, sizeof(usuario)); //aloca o ponteiro conforme o numero de cadastrados no arquivo.
     if (c == NULL)
     {
         printf("Erro memoria insuficiente");
@@ -330,7 +330,7 @@ void lista_clientes()
         }
     }
     fclose(arq);
-    free(c); // libera o ponteiro ao t�rmino da execu��o da fun��o.
+    free(c); // libera o ponteiro ao termino da execucao da funcao.
 }
 
 /* função para encontrar um cliente a partir do cpf. */
@@ -353,8 +353,8 @@ usuario *buscar_cliente()
     fscanf(num, "%d", &numclientes);
     fclose(num);
 
-    /* Abre o arquivo e l� o n�mero de cadastros armazenados
-    no banco de dados at� o momento. */
+    /* Abre o arquivo e le o numero de cadastros armazenados
+    no banco de dados ate o momento. */
 
     arq = fopen("dados_clientes.bin", "rb+");
     if (arq == NULL)
@@ -365,8 +365,8 @@ usuario *buscar_cliente()
 
     usuario *c, *p = NULL;
 
-    /* o ponteiro p salva as informa��es do usu�rio procurado e �
-    retornado pela fun��o. */
+    /* o ponteiro p salva as informacoes do usuario procurado e e
+    retornado pela funcao. */
 
     c = (usuario *)calloc(numclientes, sizeof(usuario)); // aloca um ponteiro para armazenar os cadastros lidos do arquivo.
     if (c == NULL)
@@ -376,7 +376,7 @@ usuario *buscar_cliente()
     }
 
     fseek(arq, 0, SEEK_SET);
-    fread(c, sizeof(usuario), numclientes, arq); //l� o arquivo bin�rio contendo os cadastros dos clientes e armazena no ponteiro c.
+    fread(c, sizeof(usuario), numclientes, arq); //le o arquivo binario contendo os cadastros dos clientes e armazena no ponteiro c.
 
     printf("Digite o CPF do cliente a ser buscado: ");
     fflush(stdin);
@@ -403,8 +403,8 @@ usuario *buscar_cliente()
         printf("\n \nNao encontramos o CPF informado.");
 
     return p;
-    /* Como a fun��o retorna p que armazena um endere�o de c, n�o podemos liberar a
-    mem�ria alocada pelo ponteiro nessa fun��o em espec�fico. */
+    /* Como a funcao retorna p que armazena um endereco de c, nao podemos liberar a
+    memoria alocada pelo ponteiro nessa funcao em especifico. */
 }
 
 /*--------------------------------------*/
@@ -430,20 +430,20 @@ void menu_alterar_cliente()
         {
         case 1:
             system("cls");
-            alterar_nome_cliente(); //fun��o para alterar somente o nome do cliente no cadastro.
+            alterar_nome_cliente(); //funcao para alterar somente o nome do cliente no cadastro.
             system("cls");
             break;
 
         case 2:
             system("cls");
-            alterar_cpf_cliente(); //fun��o para alterar somente o cpf do cliente no cadastro.
+            alterar_cpf_cliente(); //funcao para alterar somente o cpf do cliente no cadastro.
             system("pause");
             system("cls");
             break;
 
         case 3:
             system("cls");
-            alterar_telefone_cliente(); //fun��o para alterar o telefone do cliente no cadastro.
+            alterar_telefone_cliente(); //funcao para alterar o telefone do cliente no cadastro.
             system("pause");
             system("cls");
             break;
@@ -491,8 +491,8 @@ void alterar_nome_cliente()
     fscanf(num, "%d", &numclientes);
     fclose(num);
 
-    /* Abre o arquivo e l� o n�mero de cadastros armazenados
-    no banco de dados at� o momento. */
+    /* Abre o arquivo e le o numero de cadastros armazenados
+    no banco de dados ate o momento. */
 
     arq = fopen("dados_clientes.bin", "rb+");
     if (arq == NULL)
@@ -524,8 +524,8 @@ void alterar_nome_cliente()
         if (strcmp(((c + i)->cpf), cpf) == 0)
         {
 
-            printf("\n \n Usuario Encontrado. \n\n\n");	//	Intera��o com o usu�rio (Imprimindo o cliente que sofrer� altera��es no cadastro)
-            printf("\n _______________Cadastro[%d]:_______________ \n", i + 1);
+            printf("\n \n Usuario Encontrado. \n\n\n");	//	Interacao com o usuario (Imprimindo o cliente que 
+            printf("\n _______________Cadastro[%d]:_______________ \n", i + 1);	//	sofrera alteracoes no cadastro)
             printf("\n Nome: %s", (c + i)->nome);
             printf("\n CPF: %s", (c + i)->cpf);
             printf("\n Telefone: %s\n\n", (c + i)->telefone);
@@ -574,8 +574,8 @@ void alterar_telefone_cliente()
     fscanf(num, "%d", &numclientes);
     fclose(num);
 
-    /* Abre o arquivo e l� o n�mero de cadastros armazenados
-    no banco de dados at� o momento. */
+    /* Abre o arquivo e le o numero de cadastros armazenados
+    no banco de dados ate o momento. */
 
     arq = fopen("dados_clientes.bin", "rb+");
     if (arq == NULL)
@@ -595,7 +595,7 @@ void alterar_telefone_cliente()
     }
 
     fseek(arq, 0, SEEK_SET);
-    fread(c, sizeof(usuario), numclientes, arq); //l� o arquivo bin�rio contendo os cadastros dos clientes e armazena no ponteiro c.
+    fread(c, sizeof(usuario), numclientes, arq); //le o arquivo binario contendo os cadastros dos clientes e armazena no ponteiro c.
     fclose(arq);
 
     printf("Digite o CPF do cliente a ser buscado: ");
@@ -604,8 +604,8 @@ void alterar_telefone_cliente()
     fflush(stdin);
     for (i = 0; i < numclientes; i++)
     {
-        if (strcmp(((c + i)->cpf), cpf) == 0)			//	Intera��o com o usuario: Imprimindo o cliente encontrado e solicitando novos dados
-        {
+        if (strcmp(((c + i)->cpf), cpf) == 0)			//	Interacao com o usuario: Imprimindo o 
+        {							//	cliente encontrado e solicitando novos dados
 
             printf("\n \n Usuario Encontrado. \n\n\n");
             printf("\n _______________Cadastro[%d]:_______________ \n", i + 1);
@@ -658,8 +658,8 @@ void alterar_cpf_cliente()
     fscanf(num, "%d", &numclientes);
     fclose(num);
 
-    /* Abre o arquivo e l� o n�mero de cadastros armazenados
-    no banco de dados at� o momento. */
+    /* Abre o arquivo e le o numero de cadastros armazenados
+    no banco de dados ate o momento. */
 
     arq = fopen("dados_clientes.bin", "rb+");
     if (arq == NULL)
@@ -679,7 +679,7 @@ void alterar_cpf_cliente()
     }
 
     fseek(arq, 0, SEEK_SET);
-    fread(c, sizeof(usuario), numclientes, arq); //l� o arquivo bin�rio contendo os cadastros dos clientes e armazena no ponteiro c.
+    fread(c, sizeof(usuario), numclientes, arq); //le o arquivo binario contendo os cadastros dos clientes e armazena no ponteiro c.
     fclose(arq);
 
     printf("Digite o CPF do cliente a ser buscado: ");
@@ -691,9 +691,9 @@ void alterar_cpf_cliente()
         if (strcmp(((c + i)->cpf), cpf) == 0)
         {
 
-            printf("\n \n Usuario Encontrado. \n\n\n");			//	Intera��o com o usuario: Imprimindo o cliente encontrado e solicitando novos dados
-            printf("\n _______________Cadastro[%d]:_______________ \n", i + 1);
-            printf("\n Nome: %s", (c + i)->nome);
+            printf("\n \n Usuario Encontrado. \n\n\n");			//	Interacao com o usuario: 
+            printf("\n _______________Cadastro[%d]:_______________ \n", i + 1);	
+            printf("\n Nome: %s", (c + i)->nome);	//	Imprimindo o cliente encontrado e solicitando novos dados
             printf("\n CPF: %s", (c + i)->cpf);
             printf("\n Telefone: %s", (c + i)->telefone);
             printf("\n \n");
@@ -719,7 +719,7 @@ void alterar_cpf_cliente()
     }
     fwrite(c, sizeof(usuario), numclientes, arq);
     fclose(arq);
-    free(c); //libera a mem�ria alocada pelo ponteiro c.
+    free(c); 				//libera a memoria alocada pelo ponteiro c.
 }
 
 /* função que exclui o cadastro de um cliente. */
@@ -763,7 +763,7 @@ void excluir_cliente()
     }
 
     fseek(arq, 0, SEEK_SET);
-    fread(c, sizeof(usuario), numclientes, arq); //l� o arquivo bin�rio contendo os cadastros dos clientes e armazena no ponteiro c.
+    fread(c, sizeof(usuario), numclientes, arq); //le o arquivo binario contendo os cadastros dos clientes e armazena no ponteiro c.
     fclose(arq);
 
     printf("Digite o CPF do cliente a ser excluido: ");
@@ -773,8 +773,8 @@ void excluir_cliente()
 
     for (i = 0; i < numclientes; i++)
     {
-        if (strcmp(((c + i)->cpf), cpf) == 0)		//	Intera��o com o usuario: Imprimindo o cliente encontrado e solicitando novos dados
-        {
+        if (strcmp(((c + i)->cpf), cpf) == 0)		//	Interacao com o usuario: Imprimindo o cliente encontrado 
+        {						//	e solicitando novos dados
             printf("\n \n Usuario Encontrado. \n\n\n");
             printf("\n _______________Cadastro[%d]:_______________ \n", i + 1);
             printf("\n Nome: %s", (c + i)->nome);
@@ -797,7 +797,7 @@ void excluir_cliente()
 
     numclientes--;
 
-    if (negativo == 0)			//	Intera��o com o usu�rio, informando que n�o foi encontrado o CPF solicitado
+    if (negativo == 0)			//	Interacao com o usuario, informando que nao foi encontrado o CPF solicitado
         printf("\n \nNao encontramos o CPF informado.");
 
     arq = fopen("dados_clientes.bin", "wb+");
@@ -808,7 +808,7 @@ void excluir_cliente()
     }
 
     fseek(arq, 0, SEEK_SET);
-    fwrite(c, sizeof(usuario), numclientes, arq); //subscreve e atualiza o banco de dados de cadastro de clientes.
+    fwrite(c, sizeof(usuario), numclientes, arq); 	//subscreve e atualiza o banco de dados de cadastro de clientes.
     fclose(arq);
 
     num = fopen("num_clientes.txt", "w+");
@@ -819,7 +819,7 @@ void excluir_cliente()
     }
 
     fseek(num, 0, SEEK_SET);
-    fprintf(num, "%d", numclientes); //atualiza o n�mero de cadastros salvos no banco de dados.
+    fprintf(num, "%d", numclientes); //atualiza o numero de cadastros salvos no banco de dados.
     fclose(num);
     free(c);
 }
@@ -888,7 +888,7 @@ void menu_produto()
 
 void criar_produto(cadastro_prod *prod) {	//	Cadastra um produto no sistema.
 
-    printf("\nDigite as informacoes para o cadastro do produto:\n");	//	Informa��es solicitadas s�o:
+    printf("\nDigite as informacoes para o cadastro do produto:\n");	//	As informacoes solicitadas sao:
     fflush(stdin);
     printf("\nFornecedor:\t");					/*	Fornecedor 	*/
     gets(prod->fornecedor);
@@ -896,10 +896,10 @@ void criar_produto(cadastro_prod *prod) {	//	Cadastra um produto no sistema.
     printf("Tipo do produto:\t");				//	Tipo do produto
     gets(prod->tipo);
 
-    printf("Identificador do produto(inteiro):\t");		//	Um n�mero de identifica��o
+    printf("Identificador do produto(inteiro):\t");		//	Um numero de identificacao
     scanf("%d", &(prod->identificador));
-    while ((prod->identificador) < 0 ) {				//	Regra de neg�cio: Verifica��o do n�mero de identifica��o
-        printf("Identificador do produto deve ser um inteiro maior que 0:\t");
+    while ((prod->identificador) < 0 ) {				//	Regra de negocio: 
+        printf("Identificador do produto deve ser um inteiro maior que 0:\t");	//	Verificacao do numero de identificacao
         scanf("%d", &(prod->identificador));
     }
 
@@ -908,11 +908,11 @@ void criar_produto(cadastro_prod *prod) {	//	Cadastra um produto no sistema.
     printf("Nome do produto:\t");					//	Solicita o nome do produto
     gets(prod->nome);
 
-    printf("Quantidade:\t");						//	A quantidade que j� entrou em estoque, caso haja
+    printf("Quantidade:\t");						//	A quantidade que ja entrou em estoque, caso haja
     scanf("%d", &(prod->quantidade));
     fflush(stdin);
 
-    printf("Preco (decimal com ponto):\t");			//	Pre�o do produto registrado
+    printf("Preco (decimal com ponto):\t");			//	Preco do produto registrado
     scanf("%f", &(prod->preco));
     fflush(stdin);
 }
@@ -1065,8 +1065,8 @@ void remover_prod() {
     }
 
     fseek(arq, 0, SEEK_SET);
-    fread(c, sizeof(cadastro_prod), numprodutos, arq); //lê o arquivo binário contendo os cadastros dos clientes e armazena no ponteiro c.
-    fclose(arq);
+    fread(c, sizeof(cadastro_prod), numprodutos, arq); 		//	lê o arquivo binário contendo os cadastros dos clientes e 
+    fclose(arq);						//	armazena no ponteiro c
 
     printf("Digite o verificador do produto a ser totalmente excluido: ");
     fflush(stdin);
@@ -1135,7 +1135,7 @@ void altera_prod()
     if ((arq = fopen("dados_farmacia.txt", "rb+")) == NULL)
     {
         printf("Erro ao abrir o arquivo!");
-    } /*l� e procura no arquivo o codigo do produto a ser alterado*/
+    } /*le e procura no arquivo o codigo do produto a ser alterado*/
     printf("Digite o codigo do produto a ser alterado:\n");
     scanf("%d", &codigo);
 
@@ -1143,7 +1143,7 @@ void altera_prod()
     fread(dados_prod, sizeof(struct cadastro_prod), 2, arq);
 
     for (i = 0; i < max; i++)
-    { /*entrada dos novos dados do produto j� computado*/
+    { /*entrada dos novos dados do produto ja computado*/
         if (codigo == dados_prod[i].identificador)
         {
             fflush(stdin);
@@ -1251,7 +1251,7 @@ void lista_produtos() {
 
     cadastro_prod *c;
 
-    c = (cadastro_prod *)calloc(numprodutos, sizeof(cadastro_prod)); //aloca o ponteiro conforme o número de cadastrados no arquivo.
+    c = (cadastro_prod *)calloc(numprodutos, sizeof(cadastro_prod)); //aloca o ponteiro conforme o num de cadastrados no arquivo.
     if (c == NULL)
     {
         printf("Erro memoria insuficiente");
@@ -1359,7 +1359,7 @@ cadastro_prod *busca_prod_retorno(int identificador){
 void menu_fluxo()
 {
 
-    int controller = 0;
+    int controller = 0;		//	Variavel de controle e menu referenciando as devidas funcoes selecionadas
 
     printf("\n\nO que deseja fazer? \n\n1. Registrar entrada de produtos \n");
     printf("2. Registrar saida (venda) de produtos \n0. Retornar ao menu principal.\n\n");
@@ -1393,7 +1393,7 @@ void saida_de_produto()
     FILE *num_produtos = fopen ("num_produtos.txt", "rb+");		//	Abrir o arquivo com o numero de produtos cadastrados
 
     if (arq == NULL) {
-    	printf ("\nErro ao abrir o arquivo dados_farmacia.txt\n");	//	Verifica��es de abertura
+    	printf ("\nErro ao abrir o arquivo dados_farmacia.txt\n");	//	Verificacoes de abertura
     	exit(1);
     }
 
@@ -1402,13 +1402,13 @@ void saida_de_produto()
     	exit(1);
     }
 
-	fseek(num_produtos, 0, SEEK_SET);		//	Armazenando a quantia de produtos na vari�vel quantx
+	fseek(num_produtos, 0, SEEK_SET);	//	Lendo o arquivo e armazenando a quantia de produtos na variavel quantx
 	fread (&quantx, sizeof(int), 1, num_produtos);
-	fclose (num_produtos);					//	J� fechando o arquivo
+	fclose (num_produtos);				//	Ja fechando o arquivo
 
-    fseek(arq, 0, SEEK_SET);				//	Armazenando os dados dos produtos na vari�vel dados_prod
+    fseek(arq, 0, SEEK_SET);				//	Armazenando os dados dos produtos na variavel dados_prod
     fread (dados_prod, sizeof(cadastro_prod), quantx, arq);
-    fclose (arq);							//	J� fechando o arquivo
+    fclose (arq);							//	Ja fechando o arquivo
 
 	system("cls");
 	fflush (stdin);
@@ -1420,28 +1420,29 @@ void saida_de_produto()
     	printf ("\nRealizando o cadastro do cliente, para prosseguir a venda...\n");
         cliente_cadastro = alocar_cliente(1); 		//	aloca um ponteiro usuario para cadastro.
         cliente_cadastro = inserir_cliente();       //	armazena as informacoes de entrada de cadastro.
-        arquivar_cliente(cliente_cadastro);         // 	salva as informacoes do ponteiro no arquivo bin�rio.
+        arquivar_cliente(cliente_cadastro);         // 	salva as informacoes do ponteiro no arquivo binario.
         arq_num_clientes(1);                  		// 	atualiza o numero de cadastros em um arquivo txt.
         system("cls");
 
-        strcpy (cpf_do_cliente, cliente_cadastro->cpf);	//	Salvando o cpf do cliente rec�m cadastrado na nossa variavel de cpf
+        strcpy (cpf_do_cliente, cliente_cadastro->cpf);	//	Salvando o cpf do cliente recem cadastrado na nossa variavel de cpf
 
         printf("Digite o nome do produto que foi vendido\n\n");
         gets(stringzinha);
 
         posicao_do_produto = busca_de_produtos(stringzinha);
         if (posicao_do_produto != (int)NULL)
-        { //	Verifica��o de sucesso ao encontrar o produto com determinado nome
+        { //	Verificacao de sucesso ao encontrar o produto com determinado nome
 
             printf("\nQuantas unidades desse produto devem ser retiradas do sistema?\n");
             scanf("%d", &quantia);
             fflush(stdin);
 
-            if (dados_prod[posicao_do_produto].quantidade < quantia)
-            {
+            if (dados_prod[posicao_do_produto].quantidade < quantia)	//	Informando sobre a regra de negocio:
+            {								//	"Nao ha produtos suficientes para a venda"
                 printf("\nNao ha produtos o suficiente em estoque para concluir a venda. \n");
-                printf("Atualmente, existem apenas %d produtos em estoque.\n\n1. Vender o estoque inteiro.\n2. Retornar ao menu\n", dados_prod[posicao_do_produto].quantidade);
-                scanf("%c", &controller2);
+                printf("Atualmente, existem apenas %d produtos em estoque.\n", dados_prod[posicao_do_produto].quantidade);
+		printf ("\n1. Vender o estoque inteiro.\n2. Retornar ao menu\n");
+                scanf("%c", &controller2);	//	E possivel vender o que se tem ou cancelar a venda.
                 fflush(stdin);
 
                 switch (controller2)
@@ -1451,14 +1452,16 @@ void saida_de_produto()
                     dados_prod[posicao_do_produto].quantidade = 0;
                     break;
                 case '2':
-                    //	Apenas atribuindo um valor diferente de 0 ao controller2, para que ele nao entre na verifica��o abaixo e n�o seja impressa uma nota.
+                    	//	Apenas atribuindo um valor diferente de 0 ao controller2, para que ele nao entre na verificacao 
+			//	abaixo e nao seja impressa uma nota.
                     break;
                 }
             }
             dados_prod[posicao_do_produto].quantidade -= quantia;
 
             printf("\nOperacao concluida com sucesso. \n");
-            printf("Agora, a quantia de %s em estoque e: %d\n", dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
+            printf("Agora, a quantia de %s em estoque e: %d\n", 
+		   dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
 
             arq = fopen("dados_farmacia.txt", "wb+");	//	Abrir o arquivo com os dados dos produtos para atualiza-los
             fwrite (dados_prod, quantx, sizeof(cadastro_prod), arq);
@@ -1472,8 +1475,8 @@ void saida_de_produto()
     }
     else if (stricmp(controller, "sim") == 0) {
 
-        printf("\n\nDigite o CPF do cliente a que foi vendido.\n");
-        gets(cpf_do_cliente);
+        printf("\n\nDigite o CPF do cliente a que foi vendido.\n");	//	Iniciando a venda... (solicitacao de cpf
+        gets(cpf_do_cliente);						// 	e nome/quantidade do produto vendido
 
         system("cls");
         printf("Digite o nome do produto que foi vendido\n\n");
@@ -1481,16 +1484,17 @@ void saida_de_produto()
 
         posicao_do_produto = busca_de_produtos(stringzinha);
         if (posicao_do_produto != (int)NULL)
-        { //	Verifica��o de sucesso ao encontrar o produto com determinado nome
+        { //	Verificacao de sucesso ao encontrar o produto com determinado nome
 
             printf("\nQuantas unidades desse produto devem ser retiradas do sistema?\n");
             scanf("%d", &quantia);
             fflush(stdin);
 
-            if (dados_prod[posicao_do_produto].quantidade < quantia)
+            if (dados_prod[posicao_do_produto].quantidade < quantia)	//	Informando e solicitando uso da regra de negocio
             {
                 printf("\nNao ha produtos o suficiente em estoque para concluir a venda. \n");
-                printf("Atualmente, existem apenas %d produtos em estoque.\n\n1. Vender o estoque inteiro.\n2. Retornar ao menu\n", dados_prod[posicao_do_produto].quantidade);
+                printf("Atualmente, existem apenas %d produtos em estoque.\n", dados_prod[posicao_do_produto].quantidade);
+		printf("\n1. Vender o estoque inteiro.\n2. Retornar ao menu\n");
                 scanf("%c", &controller2);
                 fflush(stdin);
 
@@ -1501,33 +1505,36 @@ void saida_de_produto()
                     dados_prod[posicao_do_produto].quantidade = 0;
                     break;
                 case '2':
-                    //	Apenas atribuindo um valor diferente de 0 ao controller2, para que ele nao entre na verifica��o abaixo e n�o seja impressa uma nota.
+		//	Apenas atribuindo um valor diferente de 0 ao controller2, para que ele nao entre na verificacao 
+		//	abaixo e nao seja impressa uma nota.
                     break;
                 }
             }
             dados_prod[posicao_do_produto].quantidade -= quantia;
 
             printf("\nOperacao concluida com sucesso. \n");
-            printf("Agora, a quantia de %s em estoque e: %d\n", dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
+            printf("Agora, a quantia de %s em estoque e: %d\n", 
+		   dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
 
-			arq = fopen("dados_farmacia.txt", "wb+");	//	Abrir o arquivo com os dados dos produtos para atualiza-los
+			arq = fopen("dados_farmacia.txt", "wb+");	//Abrir o arquivo com os dados dos produtos para atualiza-los
             fwrite (dados_prod, quantx, sizeof(cadastro_prod), arq);
             fclose (arq);
 		}
     }
 
     if (controller2 == '0')
-    {   //	Controller2 � a vari�vel usada no caso em que n�o h� produtos em estoque o suficiente para efetuar a venda.
+    {   //	Controller2 e a variavel usada no caso em que nao ha produtos em estoque o suficiente para efetuar a venda.
         //	Logo, se houver algo nela, temos de emitir uma nota com a quantia que foi vendida, e nao a total pedida previamente
 
-    //    emitir_nota(&dados_prod[posicao_do_produto], quantia, cpf_do_cliente); /*	envia como argumentos, o endereco do vetor em que esta o produto,
-																				//a quantia vendida e o cpf do cliente, para a insercao na nota.*/
+    	/*   	emitir_nota(&dados_prod[posicao_do_produto], quantia, cpf_do_cliente); 
+	    	envia como argumentos, o endereco do vetor em que esta o produto, a quantia vendida e o cpf do cliente, 
+		para a insercao na nota.	*/
     }
     else if (controller2 == '1')
-    { //	Dessa vez, envia como argumento a quantia que foi vendida. (Que havia em estoque)
-    //    emitir_nota(&dados_prod[posicao_do_produto], restante, cpf_do_cliente);
+    { /*	Dessa vez, envia como argumento a quantia que foi vendida. (Que havia em estoque)
+    		emitir_nota(&dados_prod[posicao_do_produto], restante, cpf_do_cliente);	*/
     }
-    //	Se o controller for 2, significa que simplesmente retornamos ao menu e nao houve venda, logo, sem nota.
+    	//	Se o controller for 2, significa que simplesmente retornamos ao menu e nao houve venda, logo, sem nota.
     else
     {
         printf("\n\nRetornando ao menu...\n\n");
@@ -1545,10 +1552,10 @@ void entrada_de_produto()
     int posicao_do_produto, quantia, quantx;
 
     FILE *arq = fopen("dados_farmacia.txt", "rb+");	//	Abrir o arquivo com os dados dos produtos
-    FILE *num_produtos = fopen ("num_produtos.txt", "rb+");		//	Abrir o arquivo com o numero de produtos cadastrados
+    FILE *num_produtos = fopen ("num_produtos.txt", "rb+");	//	Abrir o arquivo com o numero de produtos cadastrados
 
     if (arq == NULL) {
-    	printf ("\nErro ao abrir o arquivo dados_farmacia.txt\n");	//	Verifica��es de abertura
+    	printf ("\nErro ao abrir o arquivo dados_farmacia.txt\n");	//	Verificacoes de abertura
     	exit(1);
     }
 
@@ -1557,13 +1564,13 @@ void entrada_de_produto()
     	exit(1);
     }
 
-	fseek(num_produtos, 0, SEEK_SET);		//	Armazenando a quantia de produtos na vari�vel quantx
+	fseek(num_produtos, 0, SEEK_SET);		//	Armazenando a quantia de produtos na variavel quantx
 	fread (&quantx, sizeof(int), 1, num_produtos);
-	fclose (num_produtos);					//	J� fechando o arquivo
+	fclose (num_produtos);					//	Ja fechando o arquivo
 
-    fseek(arq, 0, SEEK_SET);				//	Armazenando os dados dos produtos na vari�vel dados_prod
+    fseek(arq, 0, SEEK_SET);				//	Armazenando os dados dos produtos na variavel dados_prod
     fread (dados_prod, sizeof(cadastro_prod), quantx, arq);
-    fclose (arq);							//	J� fechando o arquivo
+    fclose (arq);							//	Ja fechando o arquivo
 
     system("cls");
 
@@ -1574,7 +1581,7 @@ void entrada_de_produto()
 
     posicao_do_produto = busca_de_produtos(stringzinha);
     if (posicao_do_produto != (int)NULL)
-    { //	Verifica��o de sucesso ao encontrar o produto com determinado nome
+    { //	Verificacao de sucesso ao encontrar o produto com determinado nome
 
         printf("\nQuantas unidades desse produto devem ser adicionadas ao sistema?\n");
         scanf("%d", &quantia);
@@ -1583,7 +1590,8 @@ void entrada_de_produto()
         dados_prod[posicao_do_produto].quantidade += quantia;
 
         printf("\nOperacao concluida com sucesso. \n");
-        printf("Agora, a quantia de %s em estoque e: %d\n", dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
+        printf("Agora, a quantia de %s em estoque e: %d\n", 
+	       dados_prod[posicao_do_produto].nome, dados_prod[posicao_do_produto].quantidade);
 
     	arq = fopen("dados_farmacia.txt", "wb+");	//	Abrir o arquivo com os dados dos produtos para atualiza-los
         fwrite (dados_prod, quantx, sizeof(cadastro_prod), arq);
@@ -1607,7 +1615,7 @@ int busca_de_produtos(char *p)
     FILE *num_produtos = fopen ("num_produtos.txt", "rb+");		//	Abrir o arquivo com o numero de produtos cadastrados
 
     if (arq == NULL) {
-    	printf ("\nErro ao abrir o arquivo dados_farmacia.txt\n");	//	Verifica��es de abertura
+    	printf ("\nErro ao abrir o arquivo dados_farmacia.txt\n");	//	Verificacoes de abertura
     	exit(1);
     }
 
@@ -1616,13 +1624,13 @@ int busca_de_produtos(char *p)
     	exit(1);
     }
 
-	fseek(num_produtos, 0, SEEK_SET);		//	Armazenando a quantia de produtos na vari�vel quantx
+	fseek(num_produtos, 0, SEEK_SET);		//	Armazenando a quantia de produtos na variavel quantx
 	fread (&quantx, sizeof(int), 1, num_produtos);
-	fclose (num_produtos);					//	J� fechando o arquivo
+	fclose (num_produtos);					//	Ja fechando o arquivo
 
-    fseek(arq, 0, SEEK_SET);				//	Armazenando os dados dos produtos do arquivo na vari�vel dados_prod
+    fseek(arq, 0, SEEK_SET);				//	Armazenando os dados dos produtos do arquivo na variavel dados_prod
     fread (dados_prod, sizeof(cadastro_prod), quantx, arq);
-    fclose (arq);							//	J� fechando o arquivo
+    fclose (arq);							//	Ja fechando o arquivo
 
 
     for (i = 0; i < quantx; i++)
@@ -1645,7 +1653,7 @@ int busca_de_produtos(char *p)
     return posicao; //	A posicao do vetor e retornada
 }
  /*
- Emissao de nota
+ Emissao de nota	(Ellian)
  */
 void emitir_nota(compra *cp) {
     FILE * arq;
@@ -1655,7 +1663,7 @@ void emitir_nota(compra *cp) {
     for(i = 0; i < 5; i++)
         (cp->cpf)[i]='X';
 
-    int hours = (int)time(NULL)/3600; // gerar timestamp para nota através das horas contadas desde 1 de janeiro de 1970
+    int hours = (int)time(NULL)/3600; 	// gerar timestamp para nota através das horas contadas desde 1 de janeiro de 1970
     char *timestamp = (char *)malloc(sizeof(char) * (1 + (int)log10(hours)));
 
     if(timestamp == NULL) {
@@ -1663,7 +1671,7 @@ void emitir_nota(compra *cp) {
     }
 
     sprintf(timestamp, "%d", hours);
-    if ((arq = fopen( strcat(strcat(strcat("nota-fiscal-", cp->cpf), timestamp), ".txt"), "w")) == NULL) // O erro é aqui dã
+    if ((arq = fopen( strcat(strcat(strcat("nota-fiscal-", cp->cpf), timestamp), ".txt"), "w")) == NULL) // Erro é aqui(?)
     { // verifica se o arquivo abre corretamente
         printf("Erro ao abrir o arquivo!");
     }
@@ -1688,7 +1696,7 @@ void emitir_nota(compra *cp) {
 }
 
  /*
- Funcoes relacionadas ao carrinho
+ Funcoes relacionadas ao carrinho	(Ellian)
  */
 
 void fazer_compra(usuario *user, cadastro_prod *produto, int quantidade, compra *cp) {
