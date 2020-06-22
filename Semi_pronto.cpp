@@ -1672,25 +1672,16 @@ void emitir_nota(compra *cp) {
 
     fseek(arq, 0, SEEK_SET);
     fwrite("NOTA FISCAL DE COMPRA\n Usuario:", sizeof("NOTA FISCAL DE COMPRA\n Usuario:"), 1, arq);
-    fseek(arq, 0, SEEK_CUR);
     fwrite(cp->nomeUser, sizeof(cp->nomeUser), 1, arq);
-    fseek(arq, 0, SEEK_CUR);
     fwrite("\tCPF:", sizeof("\tCPF:"), 1, arq);
-    fseek(arq, 0, SEEK_CUR);
     fwrite(cp->cpf, sizeof(cp->cpf), 1, arq);
-    fseek(arq, 0, SEEK_CUR);
     fwrite("\n\n\nProduto:\n\t", sizeof("\n\n\nProduto:\n\t"), 1, arq);
-    fseek(arq, 0, SEEK_CUR);
     sprintf(salvarQuantidade, "%d", cp->quantidadeProd);
     fwrite(salvarQuantidade, sizeof(salvarQuantidade), 1, arq);
-    fseek(arq, 0, SEEK_CUR);
     fwrite(" x \t", sizeof(" x \t"), 1, arq);
-    fseek(arq, 0, SEEK_CUR);
     sprintf(salvarPrecoUnitario, "%f", cp->valorProd);
     fwrite(salvarPrecoUnitario, sizeof(salvarPrecoUnitario), 1, arq);
-    fseek(arq, 0, SEEK_CUR);
     fwrite("\n\n\t\ttotal:", sizeof("\n\n\t\ttotal:"), 1, arq);
-    fseek(arq, 0, SEEK_CUR);
     sprintf(salvarPreco, "%f", ((float)cp->quantidadeProd * cp->valorProd));
     fwrite(salvarPreco, sizeof(salvarPreco), 1, arq);
     fclose(arq);
