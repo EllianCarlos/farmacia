@@ -1,5 +1,5 @@
 ﻿# farmacia
-Nome: Sistema em C para uma Farmácia genérica para a matéria de ICC 1
+Sistema em C para uma Farmácia genérica para a matéria de ICC 1
 
 Desenvolvedores:  João Vitor Diógenes, Ellian Carlos, Giovana Fardini, Thales Damasceno e Flávio Vasini.
 Data de entrega: 22/06
